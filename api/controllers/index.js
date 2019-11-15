@@ -8,6 +8,7 @@ const authController = require("./auth");
 const profileController = require("./profile");
 const educationController = require("./education");
 const experienceController = require("./experience");
+const jobsController = require("./jobs")
 
 // Mount each controller under a specific route. These
 // will be prefixes to all routes defined inside the controller
@@ -17,5 +18,6 @@ router.use("/auth", authController);
 router.use("/profile", profileController);
 router.use("/education", educationController);
 router.use("/experience", experienceController);
+router.use("/jobs", jobsController);
 
 module.exports = router;
