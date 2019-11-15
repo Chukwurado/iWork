@@ -126,5 +126,5 @@ router.post(
 //@desc     Get all jobs
 //@access   PRIVATE
 router.get("/", auth, (req, res) => {
-  res.send("Tests");
+  res.send("Test");
 });
