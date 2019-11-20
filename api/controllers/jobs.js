@@ -69,10 +69,10 @@ router.post(
   }
 );
 
-//@route    PUT api/job
+//@route    PUT api/jobs/:job_id
 //@desc     Update job
 //@access   PRIVATE
-router.post(
+router.put(
   "/:job_id",
   [
     auth,
@@ -155,5 +155,24 @@ router.get("/", auth, async (req, res) => {
     res.status(500).json({ msg: "server error" });
   }
 });
+
+
+//@route    DELETE api/jobs
+//@desc     Delete a job
+//@access   PRIVATE
+router.delete('/:job_id', auth, (req, res) => {
+  try {
+
+    const job = await Job.findByPk(req.params.job_id);
+    if(!job){
+      return res.status(404).json({msg: "Job not found"})
+    }
+    await job.destroy()
+    res.json({ msg: "Education deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({msg: "Server error"})
+  }
+})
 
 module.exports = router;
