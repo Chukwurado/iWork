@@ -5,7 +5,7 @@ const db = require("../models");
 const auth = require("../middleware/auth");
 const { Company, User, Companyprofile, Userprofile, Job } = db;
 
-//@route    POST api/job
+//@route    POST api/jobs
 //@desc     Post job
 //@access   PRIVATE
 router.post(
@@ -31,6 +31,11 @@ router.post(
       return res.status(401).json({ msg: "Unauthorized" });
     }
 
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+    }
+
     try {
       const { id } = req.company;
       const {
@@ -39,7 +44,8 @@ router.post(
         typeofposition,
         primaryrole,
         city,
-        state
+        state,
+        website
       } = req.body;
 
       const jobDetails = {
@@ -98,7 +104,8 @@ router.post(
         typeofposition,
         primaryrole,
         city,
-        state
+        state,
+        website
       } = req.body;
 
       const jobDetails = {
@@ -110,6 +117,7 @@ router.post(
       jobDetails.companyId = id;
       if (city) jobDetails.city = city;
       if (state) jobDetails.state = state;
+      if (website) jobDetails.website = website;
 
       const job = await Job.findByPk(job_id);
       await job.update(jobDetails);
@@ -125,6 +133,27 @@ router.post(
 //@route    GET api/jobs
 //@desc     Get all jobs
 //@access   PRIVATE
-router.get("/", auth, (req, res) => {
-  res.send("Test");
+router.get("/", auth, async (req, res) => {
+  try {
+    const jobs = await Job.findAll({
+      include: [
+        {
+          model: Company,
+          attributes: ["id", "name"],
+          include: [
+            {
+              model: Companyprofile,
+              attributes: ["companypicture"]
+            }
+          ]
+        }
+      ]
+    });
+    res.json(jobs);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "server error" });
+  }
 });
+
+module.exports = router;
