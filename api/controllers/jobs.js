@@ -156,23 +156,21 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-
 //@route    DELETE api/jobs
 //@desc     Delete a job
 //@access   PRIVATE
-router.delete('/:job_id', auth, (req, res) => {
+router.delete("/:job_id", auth, async (req, res) => {
   try {
-
     const job = await Job.findByPk(req.params.job_id);
-    if(!job){
-      return res.status(404).json({msg: "Job not found"})
+    if (!job) {
+      return res.status(404).json({ msg: "Job not found" });
     }
-    await job.destroy()
+    await job.destroy();
     res.json({ msg: "Education deleted" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({msg: "Server error"})
+    res.status(500).json({ msg: "Server error" });
   }
-})
+});
 
 module.exports = router;
