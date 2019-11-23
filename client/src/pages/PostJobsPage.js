@@ -12,7 +12,7 @@ class PostJobsPage extends Component {
         description: "",
         typeofposition: "",
         primaryrole: "",
-        country: "",
+        state: "",
         city: "",
         state: "",
         website: ""
@@ -20,18 +20,24 @@ class PostJobsPage extends Component {
     };
   }
 
-  selectCountry = val => {
-    this.setState({ country: val });
+  selectState = val => {
+    this.setState({ state: val.target.value });
   };
 
   selectCity = val => {
-    const selectedCity = val.target.value;
-    this.setState({ city: selectedCity });
+    this.setState({ city: val.target.value });
   };
 
   render() {
-    const { city } = this.state;
-    return <PostJobs city={city} selectCity={val => this.selectCity(val)} />;
+    const { city, state } = this.state;
+    return (
+      <PostJobs
+        state={state}
+        city={city}
+        selectState={val => this.selectState(val)}
+        selectCity={val => this.selectCity(val)}
+      />
+    );
   }
 }
 

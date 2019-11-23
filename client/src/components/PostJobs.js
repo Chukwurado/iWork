@@ -1,5 +1,5 @@
 import React from "react";
-import CityDropDown from "../components/CityDropDown";
+import StateDropDown from "../components/StateDropDown";
 
 const PostJobs = props => {
   return (
@@ -38,11 +38,21 @@ const PostJobs = props => {
             </label>
           </div>
           <div id="location">
-            <label>
-              City/Region
-              <CityDropDown value={props.city} onChange={props.selectCity} />
-            </label>
-            />
+            <div>
+              <label>
+                State
+                <StateDropDown
+                  value={props.state}
+                  onChange={props.selectState}
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                City
+                <input type="text" name="city" />
+              </label>
+            </div>
           </div>
           <div id="jobWebsite">
             <label>

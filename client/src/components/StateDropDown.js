@@ -1,16 +1,6 @@
 import React from "react";
 
-const CityDropDown = props => {
-  //   this.state = {
-  //     city: ""
-  //   };
-
-  //   const selectCity = event => {
-  //     this.setState({
-  //       city: event.target.value
-  //     });
-  //   };
-
+const StateDropDown = props => {
   return (
     <select onChange={props.onChange} value={props.value}>
       <option value="AL">Alabama</option>
@@ -68,4 +58,4 @@ const CityDropDown = props => {
   );
 };
 
-export default CityDropDown;
+export default StateDropDown;
