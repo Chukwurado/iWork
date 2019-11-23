@@ -1,0 +1,32 @@
+.addEducation {
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+  }
+  .addEducation input{
+      margin-left: 2rem;
+  }
+  
+  .addEducation #school{
+    padding-top: 2rem;
+  }
+  
+  .addEducation #degree{
+    padding-top: 2rem;
+  }
+  
+  .addEducation #fieldOfStudy{
+    padding-top: 2rem;
+  }
+  
+  .addEducation #fromDate{
+    padding-top: 2rem;
+  }
+  
+  .addEducation #toDate{
+    padding-top: 2rem;
+  }
+  
+  .addEducation #submit{
+    padding-top: 2rem;
+  }
