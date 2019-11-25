@@ -12,37 +12,12 @@
     z-index: 100;
 }
 
-.NavItems {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    flex-direction: row;
-}
-
-.NavItem {
-    margin: 10px 0;
-    box-sizing: border-box;
-    width: auto;
-    height: 100%;
-}
-
-.NavItem a {
-    color: black;
-    padding: 10px 10px;
-    text-decoration: none;
-}
-
-.NavItem a:hover {
-    border-bottom: 4px solid black;
+.Logo h1 {
+    margin: 0;
 }
 
 @media (max-width: 600px) {
     .ShowOnDesktop {
         display: none;
-    }
-
-    .NavItems {
-        flex-direction: column;
     }
 }

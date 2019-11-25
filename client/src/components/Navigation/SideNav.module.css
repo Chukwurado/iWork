@@ -1,0 +1,32 @@
+.SideNav {
+    position: fixed;
+    width: 200px;
+    max-width: 70%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: 200;
+    background-color: white;
+    transition: transform 0.5s ease-out;
+}
+
+.Open {
+    transform: translateX(100%, 0);
+}
+
+.Close {
+    transform: translateX(200%);
+    transition: transform 0.5s ease-in-out;
+}
+
+@media (min-width: 601px) {
+    .SideNav {
+        display: none;
+    }
+}
+
+.Logo h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
