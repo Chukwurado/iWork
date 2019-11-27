@@ -21,3 +21,9 @@
   color: #09d3ac;
 }
 */
+
+html,
+body {
+    min-height: 100%;
+    overflow-y: scroll;
+}

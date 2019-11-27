@@ -1,0 +1,32 @@
+.NavItems {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+}
+
+.NavItem {
+    margin: 10px 0;
+    box-sizing: border-box;
+    width: auto;
+    height: 100%;
+}
+
+.NavItem a {
+    color: black;
+    padding: 10px 10px;
+    text-decoration: none;
+}
+
+.NavItem a:hover {
+    border-bottom: 4px solid black;
+}
+
+@media (max-width: 600px) {
+    .NavItems {
+        flex-direction: column;
+    }
+}
