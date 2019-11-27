@@ -16,6 +16,7 @@ import AboutUsPage from "./pages/AboutUsPage";
 
 import PostJobsPage from "./pages/PostJobsPage";
 import AddEducationPage from "./pages/AddEducationPage";
+import CompanyProfile from "./pages/CompanyProfile";
 
 import "./App.css";
 
@@ -23,10 +24,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Router>
+        {/* <Router>
           <Navigation />
-        </Router>
-        <PostJobsPage />
+        </Router> */}
+        <CompanyProfile />
       </div>
       // <Router>
       //   <Navigation />
