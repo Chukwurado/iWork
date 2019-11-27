@@ -1,16 +1,11 @@
 import React from "react";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    NavLink
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Navbar from "./components/Navigation/Navbar";
+import SideNav from "./components/Navigation/SideNav";
+import Register from "./components/Auth/Register";
 
 import "./App.css";
-import SideNav from "./components/Navigation/SideNav";
 
 class App extends React.Component {
     state = {
@@ -21,18 +16,23 @@ class App extends React.Component {
         this.setState({ showSideNav: false });
     };
 
-    showSideNavToggle = () => {
-        this.setState({ showSideNav: !this.state.showSideNav });
+    showSideDrawer = () => {
+        this.setState({ showSideNav: true });
     };
 
     render() {
         return (
             <Router>
-                <Navbar iconClicked={this.showSideNavToggle} />
+                <Navbar iconClicked={this.showSideDrawer} />
                 <SideNav
                     open={this.state.showSideNav}
                     closed={this.closeSideDrawer}
                 />
+                <main style={{ marginTop: 70 }}>
+                    <Switch>
+                        <Route path="/register" component={Register} />
+                    </Switch>
+                </main>
             </Router>
         );
     }

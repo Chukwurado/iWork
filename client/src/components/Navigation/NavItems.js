@@ -3,21 +3,21 @@ import { Link } from "react-router-dom";
 
 import classes from "./NavItems.module.css";
 
-const NavItems = () => {
+const NavItems = props => {
     return (
         <div>
             <ul className={classes.NavItems}>
-                <li className={classes.NavItem}>
-                    <Link>Jobs</Link>
+                <li className={classes.NavItem} onClick={props.closed}>
+                    <Link to="/jobs">Jobs</Link>
                 </li>
-                <li className={classes.NavItem}>
-                    <Link>Profile</Link>
+                <li className={classes.NavItem} onClick={props.closed}>
+                    <Link to="/profile">Profile</Link>
                 </li>
-                <li className={classes.NavItem}>
-                    <Link>Sign In</Link>
+                <li className={classes.NavItem} onClick={props.closed}>
+                    <Link to="/signin">Sign In</Link>
                 </li>
-                <li className={classes.NavItem}>
-                    <Link>Register</Link>
+                <li className={classes.NavItem} onClick={props.closed}>
+                    <Link to="/register">Register</Link>
                 </li>
             </ul>
         </div>
