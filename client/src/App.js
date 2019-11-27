@@ -1,64 +1,41 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  NavLink
-} from "react-router-dom";
-import PostsListPage from "./pages/PostsListPage";
-import PostFormPage from "./pages/PostFormPage";
-import ShowPostPage from "./pages/ShowPostPage";
-import AboutUsPage from "./pages/AboutUsPage";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import PostJobsPage from "./pages/PostJobsPage";
-import AddEducationPage from "./pages/AddEducationPage";
+import Navbar from "./components/Navigation/Navbar";
+import SideNav from "./components/Navigation/SideNav";
+import Register from "./components/Auth/Register";
 
 import "./App.css";
 
-// function Navigation(props) {
-//   return (
-//     <nav className="navbar navbar-expand-sm navbar-dark bg-dark shadow mb-3">
-//       <Link className="navbar-brand" to="/">
-//         Micro Blog
-//       </Link>
-//       <ul className="navbar-nav mr-auto">
-//         <li className="nav-item">
-//           <NavLink className="nav-link" exact to="/posts/new">
-//             Create a Micro Post
-//           </NavLink>
-//         </li>
-//         <li className="nav-item">
-//           <NavLink className="nav-link" exact to="/about-us">
-//             About Us
-//           </NavLink>
-//         </li>
-//       </ul>
-//     </nav>
-//   );
-// }
-
 class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <PostJobsPage />
-      </div>
-      // <Router>
-      //   <Navigation />
-      //   <div className="container-fluid text-center">
-      //     <div className="row justify-content-center">
-      //       <Switch>
-      //         <Route path="/posts/new" component={PostFormPage} />
-      //         <Route path="/posts/:id" component={ShowPostPage} />
-      //         <Route path="/about-us" component={AboutUsPage} />
-      //         <Route path="/" component={PostsListPage} />
-      //       </Switch>
-      //     </div>
-      //   </div>
-      // </Router>
-    );
-  }
+    state = {
+        showSideNav: false
+    };
+
+    closeSideDrawer = () => {
+        this.setState({ showSideNav: false });
+    };
+
+    showSideDrawer = () => {
+        this.setState({ showSideNav: true });
+    };
+
+    render() {
+        return (
+            <Router>
+                <Navbar iconClicked={this.showSideDrawer} />
+                <SideNav
+                    open={this.state.showSideNav}
+                    closed={this.closeSideDrawer}
+                />
+                <main style={{ marginTop: 70 }}>
+                    <Switch>
+                        <Route path="/register" component={Register} />
+                    </Switch>
+                </main>
+            </Router>
+        );
+    }
 }
 
 export default App;
