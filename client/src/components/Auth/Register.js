@@ -14,10 +14,18 @@ const Register = props => {
         password: "",
         confirmPassword: ""
     });
+    const [errors, setErrors] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+    });
 
     const { firstName, lastName, email, password, confirmPassword } = formData;
 
     const inputChanged = e => {
+        setErrors({ ...errors, [e.target.name]: "" });
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
@@ -33,7 +41,27 @@ const Register = props => {
             const res = await axios.post("api/user", body, config);
             console.log(res.data);
         } catch (err) {
-            console.error(err.response.data.errors);
+            const errs = err.response.data.errors;
+            const errObj = {};
+            errs.forEach(error => {
+                if (error.param === "emailExists") {
+                    errObj.email = error.msg;
+                }
+                if (error.param === "firstName") {
+                    errObj.firstName = error.msg;
+                }
+                if (error.param === "lastName") {
+                    errObj.lastName = error.msg;
+                }
+                if (error.param === "password") {
+                    errObj.password = error.msg;
+                }
+                if (error.param === "email") {
+                    errObj.email = error.msg;
+                }
+            });
+            setErrors({ ...errObj });
+            console.log(errs);
         }
     };
 
@@ -59,6 +87,9 @@ const Register = props => {
                         name="firstName"
                         onChange={inputChanged}
                     />
+                    {errors.firstName && (
+                        <p className={classes.ErrorMsg}>{errors.firstName}</p>
+                    )}
                 </div>
                 <div className={classes.FormGroup}>
                     <label className={classes.Label} htmlFor="lastName">
@@ -71,6 +102,9 @@ const Register = props => {
                         name="lastName"
                         onChange={inputChanged}
                     />
+                    {errors.lastName && (
+                        <p className={classes.ErrorMsg}>{errors.lastName}</p>
+                    )}
                 </div>
                 <div className={classes.FormGroup}>
                     <label className={classes.Label} htmlFor="email">
@@ -83,6 +117,9 @@ const Register = props => {
                         name="email"
                         onChange={inputChanged}
                     />
+                    {errors.email && (
+                        <p className={classes.ErrorMsg}>{errors.email}</p>
+                    )}
                 </div>
             </>
         );
@@ -152,6 +189,11 @@ const Register = props => {
                                 name="password"
                                 onChange={inputChanged}
                             />
+                            {errors.password && (
+                                <p className={classes.ErrorMsg}>
+                                    {errors.password}
+                                </p>
+                            )}
                         </div>
                         <div className={classes.FormGroup}>
                             <label
@@ -173,7 +215,7 @@ const Register = props => {
                 </div>
                 <div>
                     <p>
-                        Have An Account? <Link>Sign In</Link>
+                        Have An Account? <Link to="/signin">Sign In</Link>
                     </p>
                 </div>
             </div>
