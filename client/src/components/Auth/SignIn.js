@@ -1,10 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 import classes from "./SignIn.module.css";
 
 const SignIn = props => {
   const [isJobSeeker, setIsJobSeeker] = useState(true);
+
+  useEffect(
+    () => {
+      // same as ComponentDidMount
+    },
+    [
+      /**Putting values in here will make the function inside "useEffect" execute whenever the value is changed or updated. (kind of like ComponentDidUpdate) */
+    ]
+  );
+
+  const signIn = () => {
+    try {
+      axios.get(`http://localhost:8000/api/profile/user/1`).then(res => {
+        console.log("response", res);
+        // const persons = res.data;
+        // this.setState({ persons });
+      });
+    } catch (error) {
+      // alert(error);
+      console.log("Querry error", error);
+    }
+  };
 
   const topClicked = user => {
     if (user === "jobseeker") {
@@ -16,7 +39,7 @@ const SignIn = props => {
   let inputs = null;
   inputs = (
     <>
-      <form>
+      <form onSubmit={signIn}>
         <div className={classes.FormGroup}>
           <label className={classes.Label} htmlFor="email">
             Email
@@ -29,7 +52,9 @@ const SignIn = props => {
           </label>
           <input className={classes.Input} type="password" />
         </div>
-        <button type="submit">SignIn</button>
+        <button  type="submit">
+          SignIn
+        </button>
       </form>
     </>
   );

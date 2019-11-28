@@ -6,6 +6,8 @@ import SideNav from "./components/Navigation/SideNav";
 import Register from "./components/Auth/Register";
 import SignIn from "./components/Auth/SignIn";
 
+import userProfile from "./components/Profile/UserProfile";
+
 import "./App.css";
 
 class App extends React.Component {
@@ -30,6 +32,7 @@ class App extends React.Component {
           <Switch>
             <Route path="/register" component={Register} />
             <Route path="/signin" component={SignIn} />
+            <Route path="/profile" component={userProfile} />
           </Switch>
         </main>
       </Router>

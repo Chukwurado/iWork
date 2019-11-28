@@ -45,7 +45,7 @@ router.get("/company", auth, async (req, res) => {
   }
 });
 
-//@route    POST api/auth/users
+//@route    POST api/auth/user
 //@desc     Login user
 //@access   Public
 router.post(

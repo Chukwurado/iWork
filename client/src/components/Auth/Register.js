@@ -1,60 +1,95 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+import axios from "axios";
+
 import classes from "./Register.module.css";
 
 const Register = props => {
-  const [isJobSeeker, setIsJobSeeker] = useState(true);
+    const [isJobSeeker, setIsJobSeeker] = useState(true);
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: ""
+    });
 
-  const topClicked = user => {
-    if (user === "jobseeker") {
-      setIsJobSeeker(true);
+    const { firstName, lastName, email, password, confirmPassword } = formData;
+
+    const inputChanged = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const submitForm = async e => {
+        e.preventDefault();
+        const config = {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        const body = JSON.stringify({ firstName, lastName, email, password });
+        try {
+            const res = await axios.post("api/user", body, config);
+            console.log(res.data);
+        } catch (err) {
+            console.error(err.response.data.errors);
+        }
+    };
+
+    const topClicked = user => {
+        if (user === "jobseeker") {
+            setIsJobSeeker(true);
+        } else {
+            setIsJobSeeker(false);
+        }
+    };
+    let inputs = null;
+    if (isJobSeeker) {
+        inputs = (
+            <>
+                <div className={classes.FormGroup}>
+                    <label className={classes.Label} htmlFor="firstName">
+                        First Name
+                    </label>
+                    <input
+                        className={classes.Input}
+                        type="text"
+                        value={firstName}
+                        name="firstName"
+                        onChange={inputChanged}
+                    />
+                </div>
+                <div className={classes.FormGroup}>
+                    <label className={classes.Label} htmlFor="lastName">
+                        Last Name
+                    </label>
+                    <input
+                        className={classes.Input}
+                        type="text"
+                        value={lastName}
+                        name="lastName"
+                        onChange={inputChanged}
+                    />
+                </div>
+                <div className={classes.FormGroup}>
+                    <label className={classes.Label} htmlFor="email">
+                        Email
+                    </label>
+                    <input
+                        className={classes.Input}
+                        type="email"
+                        value={email}
+                        name="email"
+                        onChange={inputChanged}
+                    />
+                </div>
+            </>
+        );
     } else {
       setIsJobSeeker(false);
     }
-  };
-  let inputs = null;
-  if (isJobSeeker) {
-    inputs = (
-      <>
-        <div className={classes.FormGroup}>
-          <label className={classes.Label} htmlFor="firstName">
-            First Name
-          </label>
-          <input className={classes.Input} type="text" />
-        </div>
-        <div className={classes.FormGroup}>
-          <label className={classes.Label} htmlFor="lastName">
-            Last Name
-          </label>
-          <input className={classes.Input} type="text" />
-        </div>
-        <div className={classes.FormGroup}>
-          <label className={classes.Label} htmlFor="email">
-            Email
-          </label>
-          <input className={classes.Input} type="email" />
-        </div>
-      </>
-    );
-  } else {
-    inputs = (
-      <>
-        <div className={classes.FormGroup}>
-          <label className={classes.Label} htmlFor="company">
-            Company
-          </label>
-          <input className={classes.Input} type="text" />
-        </div>
-        <div className={classes.FormGroup}>
-          <label className={classes.Label} htmlFor="email">
-            Email
-          </label>
-          <input className={classes.Input} type="email" />
-        </div>
-      </>
-    );
-  }
+
   return (
     <div className={classes.Register}>
       <div className={classes.Card}>
@@ -90,7 +125,7 @@ const Register = props => {
           </h5>
         </div>
         <div className={classes.Form}>
-          <form>
+          <form onSubmit={submitForm}>
             {inputs}
             <div className={classes.FormGroup}>
               <label className={classes.Label} htmlFor="password">
