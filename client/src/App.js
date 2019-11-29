@@ -1,9 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Provider } from "react-redux";
 
 import Navbar from "./components/Navigation/Navbar";
 import SideNav from "./components/Navigation/SideNav";
 import Register from "./components/Auth/Register";
+
+import store from "./store";
 
 import "./App.css";
 
@@ -22,18 +25,20 @@ class App extends React.Component {
 
     render() {
         return (
-            <Router>
-                <Navbar iconClicked={this.showSideDrawer} />
-                <SideNav
-                    open={this.state.showSideNav}
-                    closed={this.closeSideDrawer}
-                />
-                <main style={{ marginTop: 70 }}>
-                    <Switch>
-                        <Route path="/register" component={Register} />
-                    </Switch>
-                </main>
-            </Router>
+            <Provider store={store}>
+                <Router>
+                    <Navbar iconClicked={this.showSideDrawer} />
+                    <SideNav
+                        open={this.state.showSideNav}
+                        closed={this.closeSideDrawer}
+                    />
+                    <main style={{ marginTop: 70 }}>
+                        <Switch>
+                            <Route path="/register" component={Register} />
+                        </Switch>
+                    </main>
+                </Router>
+            </Provider>
         );
     }
 }

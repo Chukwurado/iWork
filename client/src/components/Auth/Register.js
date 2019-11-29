@@ -39,7 +39,6 @@ const Register = props => {
         const body = JSON.stringify({ firstName, lastName, email, password });
         try {
             const res = await axios.post("api/user", body, config);
-            console.log(res.data);
         } catch (err) {
             const errs = err.response.data.errors;
             const errObj = {};
@@ -61,7 +60,6 @@ const Register = props => {
                 }
             });
             setErrors({ ...errObj });
-            console.log(errs);
         }
     };
 
