@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-import axios from "axios";
+import { register } from "../../store/actions/auth";
 
 import classes from "./Register.module.css";
 
@@ -22,6 +23,10 @@ const Register = props => {
         confirmPassword: ""
     });
 
+    useEffect(() => {
+        setErrors({ ...props.errors });
+    }, [props.errors]);
+
     const { firstName, lastName, email, password, confirmPassword } = formData;
 
     const inputChanged = e => {
@@ -31,36 +36,7 @@ const Register = props => {
 
     const submitForm = async e => {
         e.preventDefault();
-        const config = {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        };
-        const body = JSON.stringify({ firstName, lastName, email, password });
-        try {
-            const res = await axios.post("api/user", body, config);
-        } catch (err) {
-            const errs = err.response.data.errors;
-            const errObj = {};
-            errs.forEach(error => {
-                if (error.param === "emailExists") {
-                    errObj.email = error.msg;
-                }
-                if (error.param === "firstName") {
-                    errObj.firstName = error.msg;
-                }
-                if (error.param === "lastName") {
-                    errObj.lastName = error.msg;
-                }
-                if (error.param === "password") {
-                    errObj.password = error.msg;
-                }
-                if (error.param === "email") {
-                    errObj.email = error.msg;
-                }
-            });
-            setErrors({ ...errObj });
-        }
+        props.register({ firstName, lastName, email, password });
     };
 
     const topClicked = user => {
@@ -70,6 +46,10 @@ const Register = props => {
             setIsJobSeeker(false);
         }
     };
+
+    if (props.isAuthenticated) {
+        return <Redirect to="/dashboard"></Redirect>;
+    }
     let inputs = null;
     if (isJobSeeker) {
         inputs = (
@@ -221,4 +201,10 @@ const Register = props => {
     );
 };
 
-export default Register;
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    loading: state.auth.loading,
+    errors: state.auth.errors
+});
+
+export default connect(mapStateToProps, { register })(Register);
