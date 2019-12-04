@@ -56,6 +56,7 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+    console.log("In auth route");
 
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });

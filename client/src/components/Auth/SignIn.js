@@ -3,29 +3,42 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 import classes from "./SignIn.module.css";
+import { stat } from "fs";
 
 const SignIn = props => {
   const [isJobSeeker, setIsJobSeeker] = useState(true);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
 
-  useEffect(
-    () => {
-      // same as ComponentDidMount
-    },
-    [
-      /**Putting values in here will make the function inside "useEffect" execute whenever the value is changed or updated. (kind of like ComponentDidUpdate) */
-    ]
-  );
+  const { email, password } = formData;
 
-  const signIn = () => {
+  const inputChanged = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const signIn = async e => {
+    e.preventDefault();
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+    const body = JSON.stringify({ email, password });
+
     try {
-      axios.get(`http://localhost:8000/api/profile/user/1`).then(res => {
-        console.log("response", res);
-        // const persons = res.data;
-        // this.setState({ persons });
-      });
-    } catch (error) {
-      // alert(error);
-      console.log("Querry error", error);
+      const res = await axios.post(`api/auth/user/`, body, config);
+      const status = res.status;
+      const token = res.data.token;
+      console.log("response", res.status);
+      if (status === 200) {
+        alert("successfully signed in");
+      }
+    } catch (err) {
+      const errorMessage = err.response.data.errors[0].msg;
+      alert(errorMessage);
+      console.log("Querry error", err.response.data);
     }
   };
 
@@ -44,17 +57,25 @@ const SignIn = props => {
           <label className={classes.Label} htmlFor="email">
             Email
           </label>
-          <input className={classes.Input} type="email" />
+          <input
+            className={classes.Input}
+            type="email"
+            onChange={inputChanged}
+            name="email"
+          />
         </div>
         <div className={classes.FormGroup}>
           <label className={classes.Label} htmlFor="password">
             Password
           </label>
-          <input className={classes.Input} type="password" />
+          <input
+            className={classes.Input}
+            type="password"
+            onChange={inputChanged}
+            name="password"
+          />
         </div>
-        <button  type="submit">
-          SignIn
-        </button>
+        <button type="submit">SignIn</button>
       </form>
     </>
   );
