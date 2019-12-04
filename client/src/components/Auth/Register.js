@@ -48,7 +48,7 @@ const Register = props => {
     };
 
     if (props.isAuthenticated) {
-        return <Redirect to="/dashboard"></Redirect>;
+        return <Redirect to="/me"></Redirect>;
     }
     let inputs = null;
     if (isJobSeeker) {

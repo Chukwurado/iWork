@@ -1,0 +1,12 @@
+.Modal {
+    position: fixed;
+    background-color: white;
+    width: 70%;
+    border: 1px solid #ccc;
+    left: 15%;
+    z-index: 200;
+    transition: all 0.3s ease-in-out;
+    overflow-y: scroll;
+    height: 95%;
+    bottom: 2%;
+}

@@ -1,9 +1,43 @@
 import axios from "axios";
-import { REGISTER_FAIL, REGISTER_SUCCESS, AUTH_START } from "./types";
+import {
+    REGISTER_FAIL,
+    REGISTER_SUCCESS,
+    AUTH_START,
+    USER_LOADED,
+    AUTH_ERROR
+} from "./types";
+
+//Sets the x-auth-token header like we would do in postman
+const setAuthToken = token => {
+    if (token) {
+        axios.defaults.headers.common["x-auth-token"] = token;
+    } else {
+        delete axios.defaults.headers.common["x-auth-token"];
+    }
+};
 
 const authStart = () => {
     return {
         type: AUTH_START
+    };
+};
+
+//Used to load and authenticate a user
+//This would be called in App.js because it needs to be called in every pages
+export const loadUser = () => {
+    return async dispatch => {
+        setAuthToken(localStorage.token);
+        try {
+            const res = await axios.get("/api/auth/user");
+            dispatch({
+                type: USER_LOADED,
+                payload: res.data
+            });
+        } catch (err) {
+            dispatch({
+                type: AUTH_ERROR
+            });
+        }
     };
 };
 

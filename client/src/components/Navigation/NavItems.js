@@ -11,7 +11,7 @@ const NavItems = props => {
                     <Link to="/jobs">Jobs</Link>
                 </li>
                 <li className={classes.NavItem} onClick={props.closed}>
-                    <Link to="/profile">Profile</Link>
+                    <Link to="/me">Profile</Link>
                 </li>
                 <li className={classes.NavItem} onClick={props.closed}>
                     <Link to="/signin">Sign In</Link>

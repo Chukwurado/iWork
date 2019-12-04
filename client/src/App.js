@@ -5,14 +5,20 @@ import { Provider } from "react-redux";
 import Navbar from "./components/Navigation/Navbar";
 import SideNav from "./components/Navigation/SideNav";
 import Register from "./components/Auth/Register";
+import UserDashboard from "./components/Dashboard/UserDashboard";
 
 import store from "./store";
+import { loadUser } from "./store/actions/auth";
 
 import "./App.css";
 
 class App extends React.Component {
     state = {
         showSideNav: false
+    };
+
+    componentDidMount = () => {
+        store.dispatch(loadUser());
     };
 
     closeSideDrawer = () => {
@@ -35,6 +41,7 @@ class App extends React.Component {
                     <main style={{ marginTop: 70 }}>
                         <Switch>
                             <Route path="/register" component={Register} />
+                            <Route path="/me" component={UserDashboard} />
                         </Switch>
                     </main>
                 </Router>
