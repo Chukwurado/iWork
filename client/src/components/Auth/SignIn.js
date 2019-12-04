@@ -26,9 +26,10 @@ const SignIn = props => {
       }
     };
     const body = JSON.stringify({ email, password });
+    const routeName = isJobSeeker ? "user/" : "company/";
 
     try {
-      const res = await axios.post(`api/auth/user/`, body, config);
+      const res = await axios.post(`api/auth/${routeName}`, body, config);
       const status = res.status;
       const token = res.data.token;
       console.log("response", res.status);
