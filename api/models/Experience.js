@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.DATE
             },
             description: {
-                type: DataTypes.DATE
+                type: DataTypes.STRING(1500)
             },
             current: {
                 type: DataTypes.BOOLEAN,
