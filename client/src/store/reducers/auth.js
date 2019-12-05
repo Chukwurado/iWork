@@ -2,6 +2,9 @@ import {
     REGISTER_FAIL,
     USER_REGISTER_SUCCESS,
     COMPANY_REGISTER_SUCCESS,
+    USER_LOGIN_SUCCESS,
+    COMPANY_LOGIN_SUCCESS,
+    LOGIN_FAIL,
     AUTH_START,
     USER_LOADED,
     LOGOUT
@@ -9,8 +12,8 @@ import {
 
 const initialState = {
     token: localStorage.getItem("token"),
-    userAuthenticated: localStorage.getItem("user"),
-    companyAuthenticated: localStorage.getItem("company"),
+    userAuthenticated: localStorage.getItem("userAuthenticated"),
+    companyAuthenticated: localStorage.getItem("companyAuthenticated"),
     loading: false,
     errors: null,
     user: null,
@@ -33,9 +36,10 @@ export default (state = initialState, action) => {
                 user: payload
             };
         case USER_REGISTER_SUCCESS:
+        case USER_LOGIN_SUCCESS:
             localStorage.setItem("token", payload.token);
-            localStorage.setItem("user", true);
-            localStorage.removeItem("company");
+            localStorage.setItem("userAuthenticated", true);
+            localStorage.removeItem("companyAuthenticated");
             return {
                 ...state,
                 token: payload.token,
@@ -44,9 +48,10 @@ export default (state = initialState, action) => {
                 userAuthenticated: true
             };
         case COMPANY_REGISTER_SUCCESS:
+        case COMPANY_LOGIN_SUCCESS:
             localStorage.setItem("token", payload.token);
-            localStorage.setItem("company", true);
-            localStorage.removeItem("user");
+            localStorage.setItem("companyAuthenticated", true);
+            localStorage.removeItem("userAuthenticated");
             return {
                 ...state,
                 token: payload.token,
@@ -55,26 +60,19 @@ export default (state = initialState, action) => {
                 companyAuthenticated: true
             };
         case REGISTER_FAIL:
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            localStorage.removeItem("company");
-            return {
-                ...state,
-                token: null,
-                userAuthenticated: false,
-                loading: false,
-                errors: { ...payload }
-            };
+        case LOGIN_FAIL:
         case LOGOUT:
             localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            localStorage.removeItem("company");
+            localStorage.removeItem("userAuthenticated");
+            localStorage.removeItem("companyAuthenticated");
             return {
                 ...state,
                 token: null,
                 userAuthenticated: false,
                 companyAuthenticated: false,
                 loading: false,
+                user: null,
+                company: null,
                 errors: { ...payload }
             };
         default:

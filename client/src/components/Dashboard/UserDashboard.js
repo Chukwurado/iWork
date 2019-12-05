@@ -67,7 +67,7 @@ const UserDashboard = props => {
     }, []);
 
     if (!props.userAuthenticated) {
-        return <Redirect to="/signin"></Redirect>;
+        return <Redirect to="/login"></Redirect>;
     }
 
     const {
