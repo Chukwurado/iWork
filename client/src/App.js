@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import Navbar from "./components/Navigation/Navbar";
 import SideNav from "./components/Navigation/SideNav";
 import Register from "./components/Auth/Register";
+import SignIn from "./components/Auth/SignIn";
 import UserDashboard from "./components/Dashboard/UserDashboard";
 
 import store from "./store";

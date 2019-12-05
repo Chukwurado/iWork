@@ -23,6 +23,8 @@
     "multer": "^1.4.2",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
+    "react-avatar-edit": "^0.8.3",
+    "react-images-upload": "^1.2.7",
     "react-moment": "^0.9.6",
     "sequelize": "^5.19.2",
     "sqlite3": "^4.1.0"
