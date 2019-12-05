@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Route, Redirect } from "react-router-dom";
 import axios from "axios";
 
 import classes from "./SignIn.module.css";
@@ -34,7 +34,10 @@ const SignIn = props => {
       const token = res.data.token;
       console.log("response", res.status);
       if (status === 200) {
-        alert("successfully signed in");
+        console.log("successfully signed in");
+        if (routeName === "user/") {
+        } else {
+        }
       }
     } catch (err) {
       const errorMessage = err.response.data.errors[0].msg;

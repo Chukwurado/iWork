@@ -7,9 +7,10 @@ import SideNav from "./components/Navigation/SideNav";
 import Register from "./components/Auth/Register";
 import SignIn from "./components/Auth/SignIn";
 import UserDashboard from "./components/Dashboard/UserDashboard";
+import CompanyDashboard from "./components/Dashboard/CompanyDashboard";
 
 import store from "./store";
-import { loadUser } from "./store/actions/auth";
+import { authenticate } from "./store/actions/auth";
 
 import "./App.css";
 
@@ -19,7 +20,8 @@ class App extends React.Component {
   };
 
   componentDidMount = () => {
-    store.dispatch(loadUser());
+    console.log(store.getState().auth.userAuthenticated);
+    store.dispatch(authenticate(store.getState().auth.userAuthenticated));
   };
 
   closeSideDrawer = () => {
@@ -43,6 +45,7 @@ class App extends React.Component {
             <Switch>
               <Route path="/register" component={Register} />
               <Route path="/me" component={UserDashboard} />
+              <Route path="/compDashboard" component={CompanyDashboard} />
               <Route path="/login" component={SignIn} />
             </Switch>
           </main>

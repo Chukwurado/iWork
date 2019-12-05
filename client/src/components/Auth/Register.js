@@ -21,9 +21,11 @@ const Register = props => {
     password: "",
     confirmPassword: ""
   });
+
   useEffect(() => {
     setErrors({ ...props.errors });
   }, [props.errors]);
+
   const {
     firstName,
     lastName,
@@ -32,14 +34,17 @@ const Register = props => {
     confirmPassword,
     company
   } = formData;
+
   const inputChanged = e => {
     setErrors({ ...errors, [e.target.name]: "" });
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
   const submitForm = async e => {
     e.preventDefault();
     props.register(formData, isJobSeeker);
   };
+
   const topClicked = user => {
     if (user === "jobseeker") {
       setIsJobSeeker(true);
@@ -47,6 +52,7 @@ const Register = props => {
       setIsJobSeeker(false);
     }
   };
+
   if (props.userAuthenticated) {
     return <Redirect to="/me"></Redirect>;
   }
@@ -197,6 +203,7 @@ const Register = props => {
     </div>
   );
 };
+
 const mapStateToProps = state => ({
   userAuthenticated: state.auth.userAuthenticated,
   loading: state.auth.loading,
