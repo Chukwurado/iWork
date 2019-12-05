@@ -51,6 +51,7 @@ const AddEducation = props => {
 
     return (
         <div className={classes.EditProfile}>
+            <h4>Add Education</h4>
             <form onSubmit={submitForm}>
                 <div className={classes.FormGroup}>
                     <label className={classes.Label} htmlFor="school">
