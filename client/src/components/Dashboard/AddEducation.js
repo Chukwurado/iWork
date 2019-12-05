@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import classes from "./AddExperience.module.css";
 import axios from "axios";
 
-const EditEducation = props => {
+const AddEducation = props => {
     const [formData, setFormData] = useState({
-        school: props.education.school,
-        fieldofstudy: props.education.fieldofstudy,
-        degree: props.education.degree,
-        from: props.education.from,
-        to: props.education.to ? props.education.to : ""
+        school: "",
+        fieldofstudy: "",
+        degree: "",
+        from: "",
+        to: ""
     });
 
     const [errors, setErrors] = useState({
@@ -33,11 +33,7 @@ const EditEducation = props => {
                 headers: { "Content-type": "application/json" }
             };
             const body = JSON.stringify(formData);
-            const res = await axios.put(
-                "api/education/" + props.education.id,
-                body,
-                config
-            );
+            const res = await axios.post("api/education/", body, config);
             console.log(res.data);
             props.closeModal();
         } catch (err) {
@@ -131,10 +127,10 @@ const EditEducation = props => {
                     />
                 </div>
                 <button type="submit">Submit</button>
-                <button onClick={props.closeModal}>Cancel</button>
+                <button onClick={() => props.closeModal()}>Cancel</button>
             </form>
         </div>
     );
 };
 
-export default EditEducation;
+export default AddEducation;

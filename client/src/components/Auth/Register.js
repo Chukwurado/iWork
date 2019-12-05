@@ -11,6 +11,7 @@ const Register = props => {
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
+        company: "",
         email: "",
         password: "",
         confirmPassword: ""
@@ -19,6 +20,7 @@ const Register = props => {
         firstName: "",
         lastName: "",
         email: "",
+        company: "",
         password: "",
         confirmPassword: ""
     });
@@ -27,7 +29,14 @@ const Register = props => {
         setErrors({ ...props.errors });
     }, [props.errors]);
 
-    const { firstName, lastName, email, password, confirmPassword } = formData;
+    const {
+        firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword,
+        company
+    } = formData;
 
     const inputChanged = e => {
         setErrors({ ...errors, [e.target.name]: "" });
@@ -36,7 +45,7 @@ const Register = props => {
 
     const submitForm = async e => {
         e.preventDefault();
-        props.register({ firstName, lastName, email, password });
+        props.register(formData, isJobSeeker);
     };
 
     const topClicked = user => {
@@ -47,7 +56,7 @@ const Register = props => {
         }
     };
 
-    if (props.isAuthenticated) {
+    if (props.userAuthenticated) {
         return <Redirect to="/me"></Redirect>;
     }
     let inputs = null;
@@ -84,21 +93,6 @@ const Register = props => {
                         <p className={classes.ErrorMsg}>{errors.lastName}</p>
                     )}
                 </div>
-                <div className={classes.FormGroup}>
-                    <label className={classes.Label} htmlFor="email">
-                        Email
-                    </label>
-                    <input
-                        className={classes.Input}
-                        type="email"
-                        value={email}
-                        name="email"
-                        onChange={inputChanged}
-                    />
-                    {errors.email && (
-                        <p className={classes.ErrorMsg}>{errors.email}</p>
-                    )}
-                </div>
             </>
         );
     } else {
@@ -108,13 +102,15 @@ const Register = props => {
                     <label className={classes.Label} htmlFor="company">
                         Company
                     </label>
-                    <input className={classes.Input} type="text" />
-                </div>
-                <div className={classes.FormGroup}>
-                    <label className={classes.Label} htmlFor="email">
-                        Email
-                    </label>
-                    <input className={classes.Input} type="email" />
+                    <input
+                        className={classes.Input}
+                        type="text"
+                        value={company}
+                        onChange={inputChanged}
+                    />
+                    {errors.company && (
+                        <p className={classes.ErrorMsg}>{errors.company}</p>
+                    )}
                 </div>
             </>
         );
@@ -156,6 +152,23 @@ const Register = props => {
                 <div className={classes.Form}>
                     <form onSubmit={submitForm}>
                         {inputs}
+                        <div className={classes.FormGroup}>
+                            <label className={classes.Label} htmlFor="email">
+                                Email
+                            </label>
+                            <input
+                                className={classes.Input}
+                                type="email"
+                                value={email}
+                                name="email"
+                                onChange={inputChanged}
+                            />
+                            {errors.email && (
+                                <p className={classes.ErrorMsg}>
+                                    {errors.email}
+                                </p>
+                            )}
+                        </div>
                         <div className={classes.FormGroup}>
                             <label className={classes.Label} htmlFor="password">
                                 Password
@@ -202,7 +215,7 @@ const Register = props => {
 };
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
+    userAuthenticated: state.auth.userAuthenticated,
     loading: state.auth.loading,
     errors: state.auth.errors
 });

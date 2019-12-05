@@ -1,7 +1,8 @@
 import axios from "axios";
 import {
     REGISTER_FAIL,
-    REGISTER_SUCCESS,
+    USER_REGISTER_SUCCESS,
+    COMPANY_REGISTER_SUCCESS,
     AUTH_START,
     USER_LOADED,
     AUTH_ERROR
@@ -24,11 +25,12 @@ const authStart = () => {
 
 //Used to load and authenticate a user
 //This would be called in App.js because it needs to be called in every pages
-export const loadUser = () => {
+export const authenticate = isUser => {
     return async dispatch => {
         setAuthToken(localStorage.token);
         try {
-            const res = await axios.get("/api/auth/user");
+            const endPoint = isUser ? "user" : "company";
+            const res = await axios.get("/api/auth/" + endPoint);
             dispatch({
                 type: USER_LOADED,
                 payload: res.data
@@ -42,7 +44,10 @@ export const loadUser = () => {
 };
 
 //Register User
-export const register = ({ firstName, lastName, email, password }) => {
+export const register = (
+    { firstName, lastName, email, company, password },
+    isJobSeeker
+) => {
     return async dispatch => {
         dispatch(authStart());
         try {
@@ -51,19 +56,31 @@ export const register = ({ firstName, lastName, email, password }) => {
                     "Content-Type": "application/json"
                 }
             };
-            const body = JSON.stringify({
+            let body = JSON.stringify({
                 firstName,
                 lastName,
                 email,
                 password
             });
-            const res = await axios.post("api/user", body, config);
+            if (!isJobSeeker) {
+                body = JSON.stringify({
+                    company,
+                    email,
+                    password
+                });
+            }
+
+            const endPoint = isJobSeeker ? "user/" : "company/";
+            const res = await axios.post(`api/${endPoint}`, body, config);
             dispatch({
-                type: REGISTER_SUCCESS,
+                type: isJobSeeker
+                    ? USER_REGISTER_SUCCESS
+                    : COMPANY_REGISTER_SUCCESS,
                 payload: res.data
             });
         } catch (err) {
             const errs = err.response.data.errors;
+            console.log(errs);
             const errors = {};
             errs.forEach(error => {
                 if (error.param === "emailExists") {
@@ -80,6 +97,9 @@ export const register = ({ firstName, lastName, email, password }) => {
                 }
                 if (error.param === "email") {
                     errors.email = error.msg;
+                }
+                if (error.param === "company") {
+                    errors.company = error.msg;
                 }
             });
             dispatch({

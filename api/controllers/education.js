@@ -44,7 +44,7 @@ router.post(
             let educationFields = { school, fieldofstudy, degree, from };
             educationFields.userId = id;
             if (to) educationFields.to = to;
-            // await Education.create(educationFields);
+            await Education.create(educationFields);
 
             const user = await User.findOne({
                 where: { id },
