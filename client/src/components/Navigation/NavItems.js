@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { logout } from "../../store/actions/auth";
 
 import classes from "./NavItems.module.css";
 
@@ -19,7 +22,7 @@ const NavItems = props => {
                 <li className={classes.NavItem} onClick={props.closed}>
                     <Link to="/register">Register</Link>
                 </li>
-                <li className={classes.NavItem} onClick={props.closed}>
+                <li className={classes.NavItem} onClick={props.logout}>
                     <Link to="/#!">Logout</Link>
                 </li>
             </ul>
@@ -27,4 +30,4 @@ const NavItems = props => {
     );
 };
 
-export default NavItems;
+export default connect(null, { logout })(NavItems);

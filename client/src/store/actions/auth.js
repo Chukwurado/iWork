@@ -5,7 +5,8 @@ import {
     COMPANY_REGISTER_SUCCESS,
     AUTH_START,
     USER_LOADED,
-    AUTH_ERROR
+    AUTH_ERROR,
+    LOGOUT
 } from "./types";
 
 //Sets the x-auth-token header like we would do in postman
@@ -108,4 +109,10 @@ export const register = (
             });
         }
     };
+};
+
+export const logout = () => dispatch => {
+    dispatch({
+        type: LOGOUT
+    });
 };
