@@ -8,6 +8,7 @@ import classes from "./Register.module.css";
 const Register = props => {
   const [isJobSeeker, setIsJobSeeker] = useState(true);
   const [formData, setFormData] = useState({
+    name: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -15,7 +16,14 @@ const Register = props => {
     confirmPassword: ""
   });
 
-  const { firstName, lastName, email, password, confirmPassword } = formData;
+  const {
+    name,
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword
+  } = formData;
 
   const inputChanged = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,9 +36,13 @@ const Register = props => {
         "Content-Type": "application/json"
       }
     };
-    const body = JSON.stringify({ firstName, lastName, email, password });
+    // const body = JSON.stringify({ firstName, lastName, email, password });
+    const routeName = isJobSeeker ? "user" : "company";
+    const body = isJobSeeker
+      ? JSON.stringify({ firstName, lastName, email, password })
+      : JSON.stringify({ name, email, password });
     try {
-      const res = await axios.post("api/user", body, config);
+      const res = await axios.post(`api/${routeName}`, body, config);
       console.log(res.data);
     } catch (err) {
       console.error(err.response.data.errors);
@@ -90,16 +102,28 @@ const Register = props => {
     inputs = (
       <>
         <div className={classes.FormGroup}>
-          <label className={classes.Label} htmlFor="company">
+          <label className={classes.Label} htmlFor="name">
             Company
           </label>
-          <input className={classes.Input} type="text" />
+          <input
+            className={classes.Input}
+            type="text"
+            value={name}
+            name="name"
+            onChange={inputChanged}
+          />
         </div>
         <div className={classes.FormGroup}>
           <label className={classes.Label} htmlFor="email">
             Email
           </label>
-          <input className={classes.Input} type="email" />
+          <input
+            className={classes.Input}
+            type="email"
+            value={email}
+            name="email"
+            onChange={inputChanged}
+          />
         </div>
       </>
     );
