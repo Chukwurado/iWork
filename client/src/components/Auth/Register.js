@@ -43,8 +43,14 @@ const Register = props => {
       : JSON.stringify({ name, email, password });
     try {
       const res = await axios.post(`api/${routeName}`, body, config);
+      const status = res.status;
+      if (status === 200) {
+        alert("Successfully registered");
+      }
       console.log(res.data);
     } catch (err) {
+      const errorMessage = err.response.data.errors[0].msg;
+      alert(errorMessage);
       console.error(err.response.data.errors);
     }
   };
