@@ -4,4 +4,7 @@ export const REGISTER_FAIL = "REGISTER_FAIL";
 export const AUTH_START = "AUTH_START";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const USER_LOADED = "USER_LOADED";
+export const USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
+export const COMPANY_LOGIN_SUCCESS = "COMPANY_LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
