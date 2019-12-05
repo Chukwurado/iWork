@@ -16,10 +16,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING
             },
             from: {
-                type: DataTypes.DATE
+                type: DataTypes.DATEONLY
             },
             to: {
-                type: DataTypes.DATE
+                type: DataTypes.DATEONLY
             }
         },
         {

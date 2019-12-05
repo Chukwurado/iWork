@@ -9,47 +9,47 @@ import SignIn from "./components/Auth/SignIn";
 import UserDashboard from "./components/Dashboard/UserDashboard";
 
 import store from "./store";
-import { loadUser } from "./store/actions/auth";
+import { authenticate } from "./store/actions/auth";
 
 import "./App.css";
 
 class App extends React.Component {
-  state = {
-    showSideNav: false
-  };
+    state = {
+        showSideNav: false
+    };
 
-  componentDidMount = () => {
-    store.dispatch(loadUser());
-  };
+    componentDidMount = () => {
+        console.log(store.getState().auth.userAuthenticated);
+        store.dispatch(authenticate(store.getState().auth.userAuthenticated));
+    };
 
-  closeSideDrawer = () => {
-    this.setState({ showSideNav: false });
-  };
+    closeSideDrawer = () => {
+        this.setState({ showSideNav: false });
+    };
 
-  showSideDrawer = () => {
-    this.setState({ showSideNav: true });
-  };
+    showSideDrawer = () => {
+        this.setState({ showSideNav: true });
+    };
 
-  render() {
-    return (
-      <Provider store={store}>
-        <Router>
-          <Navbar iconClicked={this.showSideDrawer} />
-          <SideNav
-            open={this.state.showSideNav}
-            closed={this.closeSideDrawer}
-          />
-          <main style={{ marginTop: 70 }}>
-            <Switch>
-              <Route path="/register" component={Register} />
-              <Route path="/me" component={UserDashboard} />
-              <Route path="/login" component={SignIn} />
-            </Switch>
-          </main>
-        </Router>
-      </Provider>
-    );
-  }
+    render() {
+        return (
+            <Provider store={store}>
+                <Router>
+                    <Navbar iconClicked={this.showSideDrawer} />
+                    <SideNav
+                        open={this.state.showSideNav}
+                        closed={this.closeSideDrawer}
+                    />
+                    <main style={{ marginTop: 70 }}>
+                        <Switch>
+                            <Route path="/register" component={Register} />
+                            <Route path="/me" component={UserDashboard} />
+                        </Switch>
+                    </main>
+                </Router>
+            </Provider>
+        );
+    }
 }
 
 export default App;

@@ -6,7 +6,7 @@ import classes from "./EditProfile.module.css";
 const EditExperience = props => {
     const [formData, setFormData] = useState({
         title: props.experience.title,
-        company: props.experience.title,
+        company: props.experience.company,
         location: props.experience.location ? props.experience.location : "",
         from: props.experience.from,
         to: props.experience.to ? props.experience.to : "",
