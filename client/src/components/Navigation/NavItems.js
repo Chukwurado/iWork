@@ -17,10 +17,7 @@ const NavItems = props => {
           <Link to="/me">Profile</Link>
         </li>
         <li className={classes.NavItem} onClick={props.closed}>
-          <Link to="/compDashboard">Comp Profile</Link>
-        </li>
-        <li className={classes.NavItem} onClick={props.closed}>
-          <Link to="/login">Sign In</Link>
+          <Link to="/signin">Sign In</Link>
         </li>
         <li className={classes.NavItem} onClick={props.closed}>
           <Link to="/register">Register</Link>
