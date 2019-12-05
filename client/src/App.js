@@ -44,6 +44,7 @@ class App extends React.Component {
           <main style={{ marginTop: 70 }}>
             <Switch>
               <Route path="/register" component={Register} />
+              <Route path="/login" component={SignIn} />
               <Route path="/me" component={UserDashboard} />
             </Switch>
           </main>

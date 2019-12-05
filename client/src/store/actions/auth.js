@@ -3,6 +3,9 @@ import {
     REGISTER_FAIL,
     USER_REGISTER_SUCCESS,
     COMPANY_REGISTER_SUCCESS,
+    USER_LOGIN_SUCCESS,
+    COMPANY_LOGIN_SUCCESS,
+    LOGIN_FAIL,
     AUTH_START,
     USER_LOADED,
     AUTH_ERROR,
@@ -105,6 +108,47 @@ export const register = (
             });
             dispatch({
                 type: REGISTER_FAIL,
+                payload: errors
+            });
+        }
+    };
+};
+
+export const login = ({ email, password }, isJobSeeker) => {
+    return async dispatch => {
+        dispatch(authStart());
+        const config = {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        };
+        const body = JSON.stringify({ email, password });
+        const routeName = isJobSeeker ? "user/" : "company/";
+
+        try {
+            const res = await axios.post(`api/auth/${routeName}`, body, config);
+            console.log(res.data);
+            dispatch({
+                type: isJobSeeker ? USER_LOGIN_SUCCESS : COMPANY_LOGIN_SUCCESS,
+                payload: res.data
+            });
+        } catch (err) {
+            const errs = err.response.data.errors;
+            console.log(errs);
+            const errors = {};
+            errs.forEach(error => {
+                if (error.param === "invalidCredentials") {
+                    errors.invalidCredentials = error.msg;
+                }
+                if (error.param === "password") {
+                    errors.password = error.msg;
+                }
+                if (error.param === "email") {
+                    errors.email = error.msg;
+                }
+            });
+            dispatch({
+                type: LOGIN_FAIL,
                 payload: errors
             });
         }
