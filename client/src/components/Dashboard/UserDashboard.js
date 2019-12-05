@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 import axios from "axios";
 import Moment from "react-moment";
 
@@ -13,7 +15,7 @@ import classes from "./UserDashboard.module.css";
 
 import testpic from "../../_DSC3181.jpg";
 
-const UserDashboard = () => {
+const UserDashboard = props => {
     const [addingExp, setIsAddingExp] = useState(false);
     const [addingEdu, setIsAddingEdu] = useState(false);
     const [editingExp, setEditingExp] = useState(false);
@@ -32,10 +34,6 @@ const UserDashboard = () => {
         education: [],
         id: null
     });
-
-    useEffect(() => {
-        getCurrentProfile();
-    }, []);
 
     const getCurrentProfile = async () => {
         try {
@@ -63,6 +61,14 @@ const UserDashboard = () => {
             console.log(err.response.data.errors);
         }
     };
+
+    useEffect(() => {
+        getCurrentProfile();
+    }, []);
+
+    if (!props.userAuthenticated) {
+        return <Redirect to="/signin"></Redirect>;
+    }
 
     const {
         firstName,
@@ -299,4 +305,8 @@ const UserDashboard = () => {
     );
 };
 
-export default UserDashboard;
+const mapStateToProps = state => ({
+    userAuthenticated: state.auth.userAuthenticated
+});
+
+export default connect(mapStateToProps)(UserDashboard);

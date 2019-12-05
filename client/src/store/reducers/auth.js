@@ -3,7 +3,8 @@ import {
     USER_REGISTER_SUCCESS,
     COMPANY_REGISTER_SUCCESS,
     AUTH_START,
-    USER_LOADED
+    USER_LOADED,
+    LOGOUT
 } from "../actions/types";
 
 const initialState = {
@@ -57,11 +58,22 @@ export default (state = initialState, action) => {
             localStorage.removeItem("token");
             localStorage.removeItem("user");
             localStorage.removeItem("company");
-
             return {
                 ...state,
                 token: null,
                 userAuthenticated: false,
+                loading: false,
+                errors: { ...payload }
+            };
+        case LOGOUT:
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            localStorage.removeItem("company");
+            return {
+                ...state,
+                token: null,
+                userAuthenticated: false,
+                companyAuthenticated: false,
                 loading: false,
                 errors: { ...payload }
             };
