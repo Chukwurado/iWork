@@ -1,60 +1,45 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
-import axios from "axios";
-
+import React, { useState, useEffect } from "react";
+import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { register } from "../../store/actions/auth";
 import classes from "./Register.module.css";
-
 const Register = props => {
   const [isJobSeeker, setIsJobSeeker] = useState(true);
   const [formData, setFormData] = useState({
-    name: "",
     firstName: "",
     lastName: "",
+    company: "",
     email: "",
     password: "",
     confirmPassword: ""
   });
-
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    company: "",
+    password: "",
+    confirmPassword: ""
+  });
+  useEffect(() => {
+    setErrors({ ...props.errors });
+  }, [props.errors]);
   const {
-    name,
     firstName,
     lastName,
     email,
     password,
-    confirmPassword
+    confirmPassword,
+    company
   } = formData;
-
   const inputChanged = e => {
+    setErrors({ ...errors, [e.target.name]: "" });
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
   const submitForm = async e => {
     e.preventDefault();
-    const config = {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-    // const body = JSON.stringify({ firstName, lastName, email, password });
-    const routeName = isJobSeeker ? "user" : "company";
-    const body = isJobSeeker
-      ? JSON.stringify({ firstName, lastName, email, password })
-      : JSON.stringify({ name, email, password });
-    try {
-      const res = await axios.post(`api/${routeName}`, body, config);
-      const status = res.status;
-      if (status === 200) {
-        alert("Successfully registered");
-      }
-      console.log(res.data);
-    } catch (err) {
-      const errorMessage = err.response.data.errors[0].msg;
-      alert(errorMessage);
-      console.error(err.response.data.errors);
-    }
+    props.register(formData, isJobSeeker);
   };
-
   const topClicked = user => {
     if (user === "jobseeker") {
       setIsJobSeeker(true);
@@ -62,6 +47,9 @@ const Register = props => {
       setIsJobSeeker(false);
     }
   };
+  if (props.userAuthenticated) {
+    return <Redirect to="/me"></Redirect>;
+  }
   let inputs = null;
   if (isJobSeeker) {
     inputs = (
@@ -77,6 +65,9 @@ const Register = props => {
             name="firstName"
             onChange={inputChanged}
           />
+          {errors.firstName && (
+            <p className={classes.ErrorMsg}>{errors.firstName}</p>
+          )}
         </div>
         <div className={classes.FormGroup}>
           <label className={classes.Label} htmlFor="lastName">
@@ -89,18 +80,9 @@ const Register = props => {
             name="lastName"
             onChange={inputChanged}
           />
-        </div>
-        <div className={classes.FormGroup}>
-          <label className={classes.Label} htmlFor="email">
-            Email
-          </label>
-          <input
-            className={classes.Input}
-            type="email"
-            value={email}
-            name="email"
-            onChange={inputChanged}
-          />
+          {errors.lastName && (
+            <p className={classes.ErrorMsg}>{errors.lastName}</p>
+          )}
         </div>
       </>
     );
@@ -108,28 +90,18 @@ const Register = props => {
     inputs = (
       <>
         <div className={classes.FormGroup}>
-          <label className={classes.Label} htmlFor="name">
+          <label className={classes.Label} htmlFor="company">
             Company
           </label>
           <input
             className={classes.Input}
             type="text"
-            value={name}
-            name="name"
+            value={company}
             onChange={inputChanged}
           />
-        </div>
-        <div className={classes.FormGroup}>
-          <label className={classes.Label} htmlFor="email">
-            Email
-          </label>
-          <input
-            className={classes.Input}
-            type="email"
-            value={email}
-            name="email"
-            onChange={inputChanged}
-          />
+          {errors.company && (
+            <p className={classes.ErrorMsg}>{errors.company}</p>
+          )}
         </div>
       </>
     );
@@ -172,6 +144,21 @@ const Register = props => {
           <form onSubmit={submitForm}>
             {inputs}
             <div className={classes.FormGroup}>
+              <label className={classes.Label} htmlFor="email">
+                Email
+              </label>
+              <input
+                className={classes.Input}
+                type="email"
+                value={email}
+                name="email"
+                onChange={inputChanged}
+              />
+              {errors.email && (
+                <p className={classes.ErrorMsg}>{errors.email}</p>
+              )}
+            </div>
+            <div className={classes.FormGroup}>
               <label className={classes.Label} htmlFor="password">
                 Password
               </label>
@@ -182,6 +169,9 @@ const Register = props => {
                 name="password"
                 onChange={inputChanged}
               />
+              {errors.password && (
+                <p className={classes.ErrorMsg}>{errors.password}</p>
+              )}
             </div>
             <div className={classes.FormGroup}>
               <label className={classes.Label} htmlFor="confirmPassword">
@@ -200,12 +190,16 @@ const Register = props => {
         </div>
         <div>
           <p>
-            Have An Account? <Link>Sign In</Link>
+            Have An Account? <Link to="/signin">Sign In</Link>
           </p>
         </div>
       </div>
     </div>
   );
 };
-
-export default Register;
+const mapStateToProps = state => ({
+  userAuthenticated: state.auth.userAuthenticated,
+  loading: state.auth.loading,
+  errors: state.auth.errors
+});
+export default connect(mapStateToProps, { register })(Register);
