@@ -8,7 +8,7 @@ import Register from "./components/Auth/Register";
 import UserDashboard from "./components/Dashboard/UserDashboard";
 
 import store from "./store";
-import { loadUser } from "./store/actions/auth";
+import { authenticate } from "./store/actions/auth";
 
 import "./App.css";
 
@@ -18,7 +18,8 @@ class App extends React.Component {
     };
 
     componentDidMount = () => {
-        store.dispatch(loadUser());
+        console.log(store.getState().auth.userAuthenticated);
+        store.dispatch(authenticate(store.getState().auth.userAuthenticated));
     };
 
     closeSideDrawer = () => {

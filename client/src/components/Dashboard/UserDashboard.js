@@ -6,6 +6,8 @@ import Modal from "../UI/Modal";
 import EditProfile from "./EditProfile";
 import AddExperince from "./AddExperience";
 import EditExperience from "./EditExperience";
+import AddEducation from "./AddEducation";
+import EditEducation from "./EditEducation";
 
 import classes from "./UserDashboard.module.css";
 
@@ -13,11 +15,11 @@ import testpic from "../../_DSC3181.jpg";
 
 const UserDashboard = () => {
     const [addingExp, setIsAddingExp] = useState(false);
+    const [addingEdu, setIsAddingEdu] = useState(false);
     const [editingExp, setEditingExp] = useState(false);
     const [editingEdu, setEditingEdu] = useState(false);
     const [editingIdx, setEditingIdx] = useState();
     const [editingProfile, setIsEditingProfile] = useState(false);
-    const [addingEdu, setIsAddingEdu] = useState(false);
     const [profile, setProfile] = useState({
         firstName: "",
         lastName: "",
@@ -54,8 +56,8 @@ const UserDashboard = () => {
                 linkedIn: !userprofile ? "" : userprofile.linkedIn,
                 github: !userprofile ? "" : userprofile.github,
                 website: !userprofile ? "" : userprofile.website,
-                education,
-                experiences
+                education: education.sort((a, b) => a.id - b.id),
+                experiences: experiences.sort((a, b) => a.id - b.id)
             });
         } catch (err) {
             console.log(err.response.data.errors);
@@ -91,12 +93,38 @@ const UserDashboard = () => {
         setEditingIdx(idx);
     };
 
+    const editEduHandler = idx => {
+        setEditingIdx(idx);
+        setEditingEdu(true);
+    };
+
     const closeModal = () => {
         setIsAddingExp(false);
         setIsEditingProfile(false);
         setIsAddingEdu(false);
         setEditingExp(false);
+        setEditingEdu(false);
         getCurrentProfile();
+    };
+
+    const deleteExpHandler = async id => {
+        try {
+            const res = await axios.delete(`/api/experience/${id}`);
+            console.log(res.data);
+            getCurrentProfile();
+        } catch (err) {
+            console.log(err.response.body);
+        }
+    };
+
+    const deleteEduHandler = async id => {
+        try {
+            const res = await axios.delete(`/api/education/${id}`);
+            console.log(res.data);
+            getCurrentProfile();
+        } catch (err) {
+            console.log(err.response.body);
+        }
     };
     return (
         <>
@@ -124,11 +152,16 @@ const UserDashboard = () => {
                         closeModal={closeModal}
                     />
                 ) : addingEdu ? (
-                    "Adding Education"
+                    <AddEducation closeModal={closeModal} />
                 ) : editingExp ? (
                     <EditExperience
                         closeModal={closeModal}
                         experience={experiences[editingIdx]}
+                    />
+                ) : editingEdu ? (
+                    <EditEducation
+                        closeModal={closeModal}
+                        education={education[editingIdx]}
                     />
                 ) : null}
             </Modal>
@@ -181,25 +214,33 @@ const UserDashboard = () => {
                                 >
                                     Edit
                                 </button>
+                                <button
+                                    className={classes.DeleteBtn}
+                                    onClick={() => deleteExpHandler(exp.id)}
+                                >
+                                    Delete
+                                </button>
                                 <div className={classes.ExpImage}></div>
                                 <div className={classes.Exp}>
                                     <h6>{exp.company}</h6>
                                     <h5>{exp.title}</h5>
                                     <p>
-                                        <Moment format="YYYY/MM">
+                                        <Moment format="MM/YYYY">
                                             {exp.from}
                                         </Moment>{" "}
                                         -{" "}
                                         {!exp.to ? (
                                             "Present"
                                         ) : (
-                                            <Moment format="YYYY/MM">
+                                            <Moment format="MM/YYYY">
                                                 {exp.to}
                                             </Moment>
                                         )}
                                     </p>
                                     <p>{exp.location && exp.location}</p>
-                                    <p>{exp.description && exp.description}</p>
+                                    <pre className={classes.JobDescription}>
+                                        {exp.description && exp.description}
+                                    </pre>
                                 </div>
                                 {i < experiences.length - 1 && <hr />}
                             </div>
@@ -209,25 +250,47 @@ const UserDashboard = () => {
                 <div className={classes.ProfileCard}>
                     <div className={classes.EduHeader}>
                         <h5>Education</h5>
-                        <button className={classes.AddEduBtn}>
+                        <button
+                            className={classes.AddEduBtn}
+                            onClick={addEduHandler}
+                        >
                             Add Education
                         </button>
                     </div>
                     <div className={classes.EduDetails}>
                         {education.map((edu, i) => (
-                            <>
+                            <div key={edu.id}>
                                 <button
                                     className={classes.EditButton}
-                                    onClick={addEduHandler}
+                                    onClick={() => editEduHandler(i)}
                                 >
                                     Edit
                                 </button>
+                                <button
+                                    className={classes.DeleteBtn}
+                                    onClick={() => deleteEduHandler(edu.id)}
+                                >
+                                    Delete
+                                </button>
                                 <div className={classes.Edu}>
-                                    <h6>Name of School</h6>
-                                    <p>From - to</p>
-                                    <p>Location</p>
+                                    <h6>{edu.school}</h6>
+                                    <p>
+                                        <Moment format="MM/YYYY">
+                                            {edu.from}
+                                        </Moment>{" "}
+                                        -{" "}
+                                        {!edu.to ? (
+                                            "Present"
+                                        ) : (
+                                            <Moment format="MM/YYYY">
+                                                {edu.to}
+                                            </Moment>
+                                        )}
+                                    </p>
+                                    <p>{edu.fieldofstudy}</p>
+                                    <p>{edu.degree}</p>
                                 </div>
-                            </>
+                            </div>
                         ))}
                     </div>
                 </div>

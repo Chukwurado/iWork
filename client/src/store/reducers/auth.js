@@ -1,16 +1,19 @@
 import {
     REGISTER_FAIL,
-    REGISTER_SUCCESS,
+    USER_REGISTER_SUCCESS,
+    COMPANY_REGISTER_SUCCESS,
     AUTH_START,
     USER_LOADED
 } from "../actions/types";
 
 const initialState = {
     token: localStorage.getItem("token"),
-    isAuthenticated: null,
+    userAuthenticated: localStorage.getItem("user"),
+    companyAuthenticated: localStorage.getItem("company"),
     loading: false,
     errors: null,
-    user: null
+    user: null,
+    company: null
 };
 
 export default (state = initialState, action) => {
@@ -25,24 +28,40 @@ export default (state = initialState, action) => {
         case USER_LOADED:
             return {
                 ...state,
-                isAuthenticated: true,
+                userAuthenticated: true,
                 user: payload
             };
-        case REGISTER_SUCCESS:
+        case USER_REGISTER_SUCCESS:
             localStorage.setItem("token", payload.token);
+            localStorage.setItem("user", true);
+            localStorage.removeItem("company");
             return {
                 ...state,
                 token: payload.token,
                 errors: null,
                 loading: false,
-                isAuthenticated: true
+                userAuthenticated: true
+            };
+        case COMPANY_REGISTER_SUCCESS:
+            localStorage.setItem("token", payload.token);
+            localStorage.setItem("company", true);
+            localStorage.removeItem("user");
+            return {
+                ...state,
+                token: payload.token,
+                errors: null,
+                loading: false,
+                companyAuthenticated: true
             };
         case REGISTER_FAIL:
             localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            localStorage.removeItem("company");
+
             return {
                 ...state,
                 token: null,
-                isAuthenticated: false,
+                userAuthenticated: false,
                 loading: false,
                 errors: { ...payload }
             };

@@ -12,10 +12,10 @@ const { check, validationResult } = require("express-validator");
 router.post(
     "/",
     [
-        check("name", "Pleaser enter your name")
+        check("company", "Pleaser enter name of company")
             .not()
             .isEmpty(),
-        check("email", "Please enter your email").isEmail(),
+        check("email", "Please enter email").isEmail(),
         check(
             "password",
             "Pleaser enter a password greater than 6 characters"
