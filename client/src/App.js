@@ -43,11 +43,20 @@ class App extends React.Component {
                         open={this.state.showSideNav}
                         closed={this.closeSideDrawer}
                     />
-                    <main style={{ marginTop: 70 }}>
+                    <main style={{ marginTop: 55 }}>
                         <Switch>
-                            <Route path="/register" component={Register} />
-                            <Route path="/login" component={SignIn} />
-                            <Route path="/me" component={UserDashboard} />
+                            <Route
+                                exact
+                                path="/register"
+                                component={Register}
+                            />
+                            <Route exact path="/login" component={SignIn} />
+                            <Route exact path="/me" component={UserDashboard} />
+                            <Route
+                                exact
+                                path="/dashboard"
+                                component={CompanyDashboard}
+                            />
                         </Switch>
                     </main>
                 </Router>
