@@ -10,6 +10,7 @@ import AddExperince from "./AddExperience";
 import EditExperience from "./EditExperience";
 import AddEducation from "./AddEducation";
 import EditEducation from "./EditEducation";
+import { setAuthToken } from "../../store/actions/auth";
 
 import classes from "./UserDashboard.module.css";
 
@@ -36,6 +37,7 @@ const UserDashboard = props => {
     });
 
     const getCurrentProfile = async () => {
+        setAuthToken(localStorage.token);
         try {
             const res = await axios.get("api/profile/me");
             console.log(res.data);
@@ -58,7 +60,7 @@ const UserDashboard = props => {
                 experiences: experiences.sort((a, b) => a.id - b.id)
             });
         } catch (err) {
-            console.log(err.response.data.errors);
+            console.log(err.response.data);
         }
     };
 

@@ -9,9 +9,11 @@ import SignIn from "./components/Auth/SignIn";
 import UserDashboard from "./components/Dashboard/UserDashboard";
 
 import store from "./store";
-import { authenticate } from "./store/actions/auth";
+import { authenticate, setAuthToken } from "./store/actions/auth";
 
 import "./App.css";
+
+setAuthToken(localStorage.token);
 
 class App extends React.Component {
     state = {
