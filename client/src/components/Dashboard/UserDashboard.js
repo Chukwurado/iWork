@@ -3,18 +3,14 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
 import Moment from "react-moment";
-
 import Modal from "../UI/Modal";
 import EditProfile from "./EditProfile";
 import AddExperince from "./AddExperience";
 import EditExperience from "./EditExperience";
 import AddEducation from "./AddEducation";
 import EditEducation from "./EditEducation";
-
 import classes from "./UserDashboard.module.css";
-
 import testpic from "../../_DSC3181.jpg";
-
 const UserDashboard = props => {
     const [addingExp, setIsAddingExp] = useState(false);
     const [addingEdu, setIsAddingEdu] = useState(false);
@@ -34,7 +30,6 @@ const UserDashboard = props => {
         education: [],
         id: null
     });
-
     const getCurrentProfile = async () => {
         try {
             const res = await axios.get("api/profile/me");
@@ -61,15 +56,12 @@ const UserDashboard = props => {
             console.log(err.response.data.errors);
         }
     };
-
     useEffect(() => {
         getCurrentProfile();
     }, []);
-
     if (!props.userAuthenticated) {
         return <Redirect to="/login"></Redirect>;
     }
-
     const {
         firstName,
         lastName,
@@ -81,29 +73,23 @@ const UserDashboard = props => {
         education,
         experiences
     } = profile;
-
     const addExpHandler = () => {
         setIsAddingExp(true);
     };
-
     const addEduHandler = () => {
         setIsAddingEdu(true);
     };
-
     const editProfileHandler = () => {
         setIsEditingProfile(true);
     };
-
     const editExpHandler = idx => {
         setEditingExp(true);
         setEditingIdx(idx);
     };
-
     const editEduHandler = idx => {
         setEditingIdx(idx);
         setEditingEdu(true);
     };
-
     const closeModal = () => {
         setIsAddingExp(false);
         setIsEditingProfile(false);
@@ -112,7 +98,6 @@ const UserDashboard = props => {
         setEditingEdu(false);
         getCurrentProfile();
     };
-
     const deleteExpHandler = async id => {
         try {
             const res = await axios.delete(`/api/experience/${id}`);
@@ -122,7 +107,6 @@ const UserDashboard = props => {
             console.log(err.response.body);
         }
     };
-
     const deleteEduHandler = async id => {
         try {
             const res = await axios.delete(`/api/education/${id}`);
@@ -304,9 +288,7 @@ const UserDashboard = props => {
         </>
     );
 };
-
 const mapStateToProps = state => ({
     userAuthenticated: state.auth.userAuthenticated
 });
-
 export default connect(mapStateToProps)(UserDashboard);
