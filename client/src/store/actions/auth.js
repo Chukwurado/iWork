@@ -15,9 +15,7 @@ import {
 
 //Sets the x-auth-token header like we would do in postman
 export const setAuthToken = token => {
-    console.log("This is setting auth token");
     if (token) {
-        console.log("The auth token is set");
         axios.defaults.headers.common["x-auth-token"] = token;
     } else {
         delete axios.defaults.headers.common["x-auth-token"];
