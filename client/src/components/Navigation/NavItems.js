@@ -26,7 +26,7 @@ const NavItems = props => {
         <Link to="/jobs">Jobs</Link>
       </li>
       <li className={classes.NavItem} onClick={props.closed}>
-        <Link to="/comp">Dashboard</Link>
+        <Link to="/me">Dashboard</Link>
       </li>
       <li className={classes.NavItem} onClick={props.logout}>
         <Link to="/#!">Logout</Link>
