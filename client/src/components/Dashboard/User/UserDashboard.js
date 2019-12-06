@@ -3,16 +3,16 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
 import Moment from "react-moment";
-import Modal from "../UI/Modal";
+import Modal from "../../UI/Modal";
 import EditProfile from "./EditProfile";
 import AddExperince from "./AddExperience";
 import EditExperience from "./EditExperience";
 import AddEducation from "./AddEducation";
 import EditEducation from "./EditEducation";
-import { setAuthToken } from "../../store/actions/auth";
+import { setAuthToken } from "../../../store/actions/auth";
 
 import classes from "./UserDashboard.module.css";
-import testpic from "../../_DSC3181.jpg";
+import testpic from "../../../_DSC3181.jpg";
 const UserDashboard = props => {
     const [addingExp, setIsAddingExp] = useState(false);
     const [addingEdu, setIsAddingEdu] = useState(false);
