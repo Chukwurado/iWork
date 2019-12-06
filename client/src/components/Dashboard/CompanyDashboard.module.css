@@ -1,0 +1,68 @@
+.ProfileCard {
+    border: 1px solid black;
+    padding: 10px 20px;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 30px;
+}
+.ProfileDetailRow {
+    display: flex;
+    margin-bottom: 20px;
+    position: relative;
+}
+.ProfilePic {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    background-size: cover;
+    margin-right: 30px;
+}
+
+.ProfileDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ProfileDetails p {
+    margin: 0;
+}
+/* .ProfilePic img {
+    width: 100%;
+    height: 100%;
+} */
+
+.ExpHeader,
+.EduHeader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.ExpDetails,
+.EduDetails {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.EditButton {
+    position: absolute;
+    right: 0;
+}
+
+.EditProfileBtn {
+    position: absolute;
+    right: 0;
+}
+
+.DeleteBtn {
+    position: absolute;
+    right: 50px;
+}
+
+.JobDescription {
+    white-space: pre-wrap;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+        "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
