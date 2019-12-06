@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     Company.associate = models => {
         // associations can be defined here
         Company.hasOne(models.Companyprofile, { foreignKey: "companyId" });
-        Company;
+        Company.hasMany(models.Job);
     };
 
     return Company;
