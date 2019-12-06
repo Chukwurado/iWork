@@ -22,7 +22,6 @@ class App extends React.Component {
     };
 
     componentDidMount = () => {
-        console.log(store.getState().auth.userAuthenticated);
         store.dispatch(authenticate(store.getState().auth.userAuthenticated));
     };
 

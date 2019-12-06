@@ -7,7 +7,8 @@ import {
     LOGIN_FAIL,
     AUTH_START,
     USER_LOADED,
-    LOGOUT
+    LOGOUT,
+    COMPANY_LOADED
 } from "../actions/types";
 
 const initialState = {
@@ -30,10 +31,24 @@ export default (state = initialState, action) => {
                 loading: true
             };
         case USER_LOADED:
+            localStorage.removeItem("companyAuthenticated");
+            localStorage.setItem("userAuthenticated", true);
             return {
                 ...state,
                 userAuthenticated: true,
-                user: payload
+                user: payload,
+                errors: null,
+                loading: false
+            };
+        case COMPANY_LOADED:
+            localStorage.setItem("companyAuthenticated", true);
+            localStorage.removeItem("userAuthenticated");
+            return {
+                ...state,
+                companyAuthenticated: true,
+                company: payload,
+                errors: null,
+                loading: false
             };
         case USER_REGISTER_SUCCESS:
         case USER_LOGIN_SUCCESS:
