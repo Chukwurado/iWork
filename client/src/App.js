@@ -46,6 +46,7 @@ class App extends React.Component {
               <Route path="/register" component={Register} />
               <Route path="/login" component={SignIn} />
               <Route path="/me" component={UserDashboard} />
+              <Route path="/comp" component={CompanyDashboard} />
             </Switch>
           </main>
         </Router>
