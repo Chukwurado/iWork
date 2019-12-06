@@ -7,10 +7,12 @@ const SideBar = props => {
     return (
         <div className={classes.SideBar}>
             <ul>
-                <li>
+                <li onClick={props.viewjobs}>
                     <Link to="/dashboard">View Jobs</Link>
                 </li>
-                <li onClick={props.postjob}>Post Jobs</li>
+                <li onClick={props.postjob}>
+                    <Link to="/dashboard">Post Jobs</Link>
+                </li>
                 <li>
                     <Link to="/editprofile">Edit Profile</Link>
                 </li>

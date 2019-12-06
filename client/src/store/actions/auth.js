@@ -9,7 +9,8 @@ import {
     AUTH_START,
     USER_LOADED,
     AUTH_ERROR,
-    LOGOUT
+    LOGOUT,
+    COMPANY_LOADED
 } from "./types";
 
 //Sets the x-auth-token header like we would do in postman
@@ -38,7 +39,7 @@ export const authenticate = isUser => {
             const endPoint = isUser ? "user" : "company";
             const res = await axios.get("/api/auth/" + endPoint);
             dispatch({
-                type: USER_LOADED,
+                type: isUser ? USER_LOADED : COMPANY_LOADED,
                 payload: res.data
             });
         } catch (err) {
