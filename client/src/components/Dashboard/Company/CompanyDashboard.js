@@ -10,19 +10,32 @@ import classes from "./CompanyDashboard.module.css";
 
 const CompanyDashboard = props => {
     const [showPostJob, setShowPostJob] = useState(false);
+    const [companyInfo, setCompanyInfo] = useState({
+        name: "",
+        id: null,
+        jobs: []
+    });
 
-    useEffect(() => {
-        getCurrentProfile();
-    }, []);
-
-    const getCurrentProfile = async () => {
+    const getCompanyInfo = async () => {
         try {
             const res = await axios.get("api/profile/company/dashboard");
             console.log(res.data);
+            setCompanyInfo({
+                ...companyInfo,
+                id: res.data.id,
+                jobs: res.data.jobs,
+                name: res.data.name
+            });
         } catch (err) {
             console.log(err);
         }
     };
+
+    useEffect(() => {
+        getCompanyInfo();
+    }, []);
+
+    const { jobs } = companyInfo;
 
     const showPostJobsHandler = () => {
         setShowPostJob(true);
@@ -36,7 +49,11 @@ const CompanyDashboard = props => {
         <>
             <SideBar postjob={showPostJobsHandler} viewjobs={showViewJobs} />
             <div className={classes.CompanyDashboard}>
-                {showPostJob ? <PostJob /> : <ViewJobs />}
+                {showPostJob ? (
+                    <PostJob getCompanyInfo={getCompanyInfo} />
+                ) : (
+                    <ViewJobs jobs={jobs} />
+                )}
             </div>
         </>
     );

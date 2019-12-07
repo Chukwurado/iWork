@@ -56,6 +56,8 @@ const PostJob = props => {
             }
             setErrors({ ...errorsObj });
         }
+
+        props.getCompanyInfo();
     };
 
     return (
@@ -154,6 +156,7 @@ const PostJob = props => {
                         value={description}
                         onChange={inputChanged}
                         maxLength="10000"
+                        rows="20"
                     />
                 </div>
                 <button type="submit">Submit</button>
