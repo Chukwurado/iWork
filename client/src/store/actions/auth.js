@@ -50,7 +50,7 @@ export const authenticate = isUser => {
 
 //Register User
 export const register = (
-    { firstName, lastName, email, company, password },
+    { firstName, lastName, email, name, password },
     isJobSeeker
 ) => {
     return async dispatch => {
@@ -69,7 +69,7 @@ export const register = (
             });
             if (!isJobSeeker) {
                 body = JSON.stringify({
-                    company,
+                    name,
                     email,
                     password
                 });
@@ -103,8 +103,8 @@ export const register = (
                 if (error.param === "email") {
                     errors.email = error.msg;
                 }
-                if (error.param === "company") {
-                    errors.company = error.msg;
+                if (error.param === "name") {
+                    errors.name = error.msg;
                 }
             });
             dispatch({

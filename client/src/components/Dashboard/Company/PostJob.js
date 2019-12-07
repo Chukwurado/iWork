@@ -39,6 +39,29 @@ const PostJob = props => {
   const closePostJob = () => {
     props.showViewJobs();
   };
+    const submitForm = async e => {
+        e.preventDefault();
+        try {
+            const config = {
+                headers: { "Content-type": "application/json" }
+            };
+            const body = JSON.stringify(formData);
+            const res = await axios.post("api/jobs", body, config);
+            console.log(res.data);
+        } catch (err) {
+            console.error(err);
+            const errs = err.response.data.errors;
+            const errorsObj = {};
+            if (errs) {
+                errs.forEach(error => {
+                    errorsObj[error.param] = error.msg;
+                });
+            }
+            setErrors({ ...errorsObj });
+        }
+
+        props.getCompanyInfo();
+    };
 
   const submitForm = async e => {
     e.preventDefault();
@@ -146,18 +169,20 @@ const PostJob = props => {
           />
         </div>
 
+
         <div className={classes.FormGroup}>
-          <label className={classes.Label} htmlFor="description">
-            Description
-          </label>
-          <textarea
-            className={classes.Input}
-            type="text"
-            name="description"
-            value={description}
-            onChange={inputChanged}
-            maxLength="10000"
-          />
+            <label className={classes.Label} htmlFor="description">
+                Description
+            </label>
+            <textarea
+                className={classes.Input}
+                type="text"
+                name="description"
+                value={description}
+                onChange={inputChanged}
+                maxLength="10000"
+                rows="20"
+            />
         </div>
         <button type="submit">Submit</button>
       </form>
