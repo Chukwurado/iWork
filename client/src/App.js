@@ -6,13 +6,16 @@ import Navbar from "./components/Navigation/Navbar";
 import SideNav from "./components/Navigation/SideNav";
 import Register from "./components/Auth/Register";
 import SignIn from "./components/Auth/SignIn";
-import UserDashboard from "./components/Dashboard/UserDashboard";
-import CompanyDashboard from "./components/Dashboard/CompanyDashboard";
+import UserDashboard from "./components/Dashboard/User/UserDashboard";
+import CompanyDashboard from "./components/Dashboard/Company/CompanyDashboard";
+import ViewJobs from "./components/Dashboard/User/ViewJobs";
 
 import store from "./store";
-import { authenticate } from "./store/actions/auth";
+import { authenticate, setAuthToken } from "./store/actions/auth";
 
 import "./App.css";
+
+setAuthToken(localStorage.token);
 
 class App extends React.Component {
   state = {
@@ -20,7 +23,6 @@ class App extends React.Component {
   };
 
   componentDidMount = () => {
-    console.log(store.getState().auth.userAuthenticated);
     store.dispatch(authenticate(store.getState().auth.userAuthenticated));
   };
 
@@ -41,12 +43,13 @@ class App extends React.Component {
             open={this.state.showSideNav}
             closed={this.closeSideDrawer}
           />
-          <main style={{ marginTop: 70 }}>
+          <main style={{ marginTop: 55 }}>
             <Switch>
-              <Route path="/register" component={Register} />
-              <Route path="/login" component={SignIn} />
-              <Route path="/me" component={UserDashboard} />
-              <Route path="/comp" component={CompanyDashboard} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={SignIn} />
+              <Route exact path="/me" component={UserDashboard} />
+              <Route exact path="/jobs" component={ViewJobs} />
+              <Route exact path="/dashboard" component={CompanyDashboard} />
             </Switch>
           </main>
         </Router>

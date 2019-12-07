@@ -16,7 +16,7 @@ const NavItems = props => {
         <Link to="/me">Profile</Link>
       </li>
       <li className={classes.NavItem} onClick={props.logout}>
-        <Link to="/#!">Logout</Link>
+        <Link to="/login">Logout</Link>
       </li>
     </>
   );
