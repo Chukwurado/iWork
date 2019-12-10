@@ -1,0 +1,27 @@
+.ViewJobs{
+    display:flex;
+    flex-direction: row;
+    padding-top:80px;
+}
+
+.Jobs{
+    height:30vh;
+    width:30vw;
+    border: 2px solid black;
+    text-align: center;
+    /* font-size: 20px; */
+}
+
+.Jobs:hover{
+    background: rgb(0, 195, 255);
+}
+
+.title{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.description{
+    font-style: italic;
+    color:'red';
+}
