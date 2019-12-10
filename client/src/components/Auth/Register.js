@@ -11,7 +11,7 @@ const Register = props => {
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
-        company: "",
+        name: "",
         email: "",
         password: "",
         confirmPassword: ""
@@ -20,7 +20,7 @@ const Register = props => {
         firstName: "",
         lastName: "",
         email: "",
-        company: "",
+        name: "",
         password: "",
         confirmPassword: ""
     });
@@ -28,6 +28,7 @@ const Register = props => {
     useEffect(() => {
         setErrors({ ...props.errors });
     }, [props.errors]);
+    console.log(errors);
 
     const {
         firstName,
@@ -35,7 +36,7 @@ const Register = props => {
         email,
         password,
         confirmPassword,
-        company
+        name
     } = formData;
 
     const inputChanged = e => {
@@ -58,6 +59,9 @@ const Register = props => {
 
     if (props.userAuthenticated) {
         return <Redirect to="/me"></Redirect>;
+    }
+    if (props.companyAuthenticated) {
+        return <Redirect to="/dashboard"></Redirect>;
     }
     let inputs = null;
     if (isJobSeeker) {
@@ -99,17 +103,18 @@ const Register = props => {
         inputs = (
             <>
                 <div className={classes.FormGroup}>
-                    <label className={classes.Label} htmlFor="company">
-                        Company
+                    <label className={classes.Label} htmlFor="name">
+                        Name
                     </label>
                     <input
                         className={classes.Input}
                         type="text"
-                        value={company}
+                        value={name}
+                        name="name"
                         onChange={inputChanged}
                     />
-                    {errors.company && (
-                        <p className={classes.ErrorMsg}>{errors.company}</p>
+                    {errors.name && (
+                        <p className={classes.ErrorMsg}>{errors.name}</p>
                     )}
                 </div>
             </>

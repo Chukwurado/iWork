@@ -12,7 +12,7 @@ const { check, validationResult } = require("express-validator");
 router.post(
     "/",
     [
-        check("company", "Pleaser enter name of company")
+        check("name", "Pleaser enter name of company")
             .not()
             .isEmpty(),
         check("email", "Please enter email").isEmail(),
