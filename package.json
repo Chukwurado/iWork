@@ -26,6 +26,7 @@
     "react-avatar-edit": "^0.8.3",
     "react-images-upload": "^1.2.7",
     "react-moment": "^0.9.6",
+    "reactstrap": "^8.2.0",
     "sequelize": "^5.19.2",
     "sqlite3": "^4.1.0"
   },

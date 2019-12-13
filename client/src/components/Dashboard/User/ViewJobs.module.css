@@ -1,7 +1,8 @@
 .ViewJobs{
     display:flex;
-    flex-direction: row;
+    flex-direction: column;
     padding-top:80px;
+    margin-left:100px;
 }
 
 .Jobs{
@@ -24,4 +25,8 @@
 .description{
     font-style: italic;
     color:'red';
+}
+
+.btn-secondary{
+    background-color: white !important;
 }

@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import classes from "./ViewJobs.module.css";
+import googleLogo from "../../../../../client/src/google.jpg";
+import VerticalModal from "./VerticalModal";
+import FilterButtons from "./FilterButtons";
 
 const ViewJobs = props => {
   const [jobs, setJobs] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [jobIndex, setJobIndex] = useState();
+  const [filteredJobs, setfilteredJobs] = useState();
+  const [typeDropdownOpen, typeSetDropdownOpen] = useState(false);
+  const [locationDropdownOpen, locationSetDropdownOpen] = useState(false);
+  const [roleDropdownOpen, roleSetDropdownOpen] = useState(false);
+  const typeToggle = () => typeSetDropdownOpen(prevState => !prevState);
+  const locationToggle = () => locationSetDropdownOpen(prevState => !prevState);
+  const roleToggle = () => roleSetDropdownOpen(prevState => !prevState);
 
   useEffect(() => {
     getJobs();
@@ -22,38 +34,97 @@ const ViewJobs = props => {
   };
   console.log(jobs);
 
+  const filter = (type, value) => {
+    console.log("#1--", jobs);
+    const filtered = [];
+    jobs.map(job => {
+      console.log("#2--", job);
+      if (job.typeofposition === "Full Time") {
+        filtered.push(job);
+      }
+    });
+
+    setJobs(filtered);
+  };
+
+  const showJob = index => {
+    setJobIndex(index);
+    setModalShow(true);
+  };
+
   return (
     <div className={classes.ViewJobs}>
-      <div className="row justify-content-around">
+      <VerticalModal
+        job={jobs[jobIndex]}
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
+      <div style={{ flexDirection: "row" }}>
+        <FilterButtons
+          dropdownOpen={typeDropdownOpen}
+          toggle={() => typeToggle()}
+          filterType="Type"
+          filterItems={["Internship", "Full Time", "Contractor"]}
+        />
+        <FilterButtons
+          dropdownOpen={locationDropdownOpen}
+          toggle={() => locationToggle()}
+          filterType="Location"
+          filterItems={["New York", "Los Angeles", "San Francisco"]}
+        />
+        <FilterButtons
+          dropdownOpen={roleDropdownOpen}
+          toggle={() => roleToggle()}
+          filterType="Primary Role"
+          filterItems={[
+            "Software Engineer",
+            "Software Developer",
+            "Technology Analyst"
+          ]}
+        />
+      </div>
+      <div className="row ">
         {jobs.length > 0
-          ? jobs.map(job => (
+          ? jobs.map((job, index) => (
               <div
                 className="card"
-                style={{ width: "15rem", padding: 20, margin: 20 }}
+                style={{
+                  width: "15rem",
+                  paddingRight: 10,
+                  paddingLeft: 10,
+                  margin: 10
+                }}
               >
                 <img
-                  src="https://picsum.photos/200/300"
+                  src={googleLogo}
                   className="card-img-top"
                   alt="..."
                   height="150"
                   width="150"
                 />
-                <div class="card-body">
+                <div
+                  style={{ padding: 0, paddingBottom: 10 }}
+                  class="card-body"
+                >
                   <h5 class="card-title">
                     <div>{job.title}</div>
                   </h5>
                   <p class="card-text">
-                    <div>{job.description}</div>
                     <div>{job.typeofposition}</div>
                     <div>{job.primaryrole}</div>
                     <div>
-                      {job.city} {job.state}
+                      {job.city} - {job.state}
                     </div>
-                    <div>{job.website}</div>
+                    <div style={{ fontStyle: "italic", fontSize: 12 }}>
+                      {job.website}
+                    </div>
                   </p>
-                  <a href="#" class="btn btn-primary">
+                  <button
+                    onClick={() => showJob(index)}
+                    class="btn btn-primary"
+                  >
                     View More
-                  </a>
+                  </button>
                 </div>
               </div>
             ))
@@ -62,19 +133,5 @@ const ViewJobs = props => {
     </div>
   );
 };
-
-// {/* <div className="col-md-3 ">
-// <div className={classes.Jobs}>
-// <div className={classes.title}>{job.title}</div>
-// <div className={classes.description}>{job.description}</div>
-// <div className={classes.typeofposition}>
-//   {job.typeofposition}
-// </div>
-// <div className={classes.primaryrole}>{job.primaryrole}</div>
-// <div className={classes.city}>{job.city}</div>
-// <div className={classes.state}>{job.state}</div>
-// <div className={classes.website}>{job.website}</div>
-// </div>
-// </div> */}
 
 export default ViewJobs;
