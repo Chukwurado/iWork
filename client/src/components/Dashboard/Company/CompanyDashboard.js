@@ -6,6 +6,8 @@ import EditCompanyinfo from "./EditCompanyInfo";
 import PostJob from "./PostJob";
 import SideBar from "./SideBar";
 
+import { setAuthToken } from "../../../store/actions/auth";
+
 import classes from "./CompanyDashboard.module.css";
 
 const CompanyDashboard = props => {
@@ -17,6 +19,7 @@ const CompanyDashboard = props => {
     });
 
     const getCompanyInfo = async () => {
+        setAuthToken(localStorage.token);
         try {
             const res = await axios.get("api/profile/company/dashboard");
             console.log(res.data);

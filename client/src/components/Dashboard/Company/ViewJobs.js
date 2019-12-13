@@ -7,7 +7,7 @@ const ViewJobs = props => {
         <div className={classes.ViewJobs}>
             <h4 style={{ paddingLeft: 20 }}>Your Jobs</h4>
             {props.jobs.length > 0 ? (
-                props.jobs.map((job, id) => (
+                props.jobs.map((job, i) => (
                     <div className={classes.Job} key={job.id}>
                         <h4>{job.title}</h4>
                         <p>{job.primaryrole}</p>
