@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Dropdown,
+  ButtonDropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
@@ -13,19 +14,24 @@ export default function FilterButtons(props) {
 
   return (
     <ButtonGroup>
-      <Dropdown
+      <ButtonDropdown
         size="sm"
-        style={{ padding: 20, backgroundColor: "white", color: "black" }}
+        className="primary"
+        style={{ padding: 20 }}
         isOpen={props.dropdownOpen}
         toggle={props.toggle}
       >
-        <DropdownToggle caret>{buttonType}</DropdownToggle>
+        <DropdownToggle color="primary" caret>
+          {buttonType}
+        </DropdownToggle>
         <DropdownMenu>
           {buttonItems.map(item => (
-            <DropdownItem>{item}</DropdownItem>
+            <DropdownItem onClick={() => props.filter(buttonType, item)}>
+              {item}
+            </DropdownItem>
           ))}
         </DropdownMenu>
-      </Dropdown>
+      </ButtonDropdown>
     </ButtonGroup>
   );
 }

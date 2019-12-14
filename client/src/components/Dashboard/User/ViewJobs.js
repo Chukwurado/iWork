@@ -9,7 +9,7 @@ const ViewJobs = props => {
   const [jobs, setJobs] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [jobIndex, setJobIndex] = useState();
-  const [filteredJobs, setfilteredJobs] = useState();
+  const [filteredJobs, setfilteredJobs] = useState([]);
   const [typeDropdownOpen, typeSetDropdownOpen] = useState(false);
   const [locationDropdownOpen, locationSetDropdownOpen] = useState(false);
   const [roleDropdownOpen, roleSetDropdownOpen] = useState(false);
@@ -26,6 +26,7 @@ const ViewJobs = props => {
       const res = await axios.get("api/jobs");
       const jobs = res.data;
 
+      setfilteredJobs(jobs);
       setJobs(jobs);
       console.log(jobs);
     } catch (error) {
@@ -34,17 +35,27 @@ const ViewJobs = props => {
   };
   console.log(jobs);
 
-  const filter = (type, value) => {
-    console.log("#1--", jobs);
-    const filtered = [];
-    jobs.map(job => {
-      console.log("#2--", job);
-      if (job.typeofposition === "Full Time") {
-        filtered.push(job);
-      }
-    });
+  const clearFilter = () => {
+    setfilteredJobs(jobs);
+  };
 
-    setJobs(filtered);
+  const filter = (type, value) => {
+    console.log("TYPE", type);
+    console.log("VALZZ", value);
+
+    const filtered = [];
+    clearFilter();
+
+    if (type === "Type") {
+      jobs.map(job => {
+        // console.log("#2--", job);
+        if (job.typeofposition === value) {
+          filtered.push(job);
+        }
+      });
+    }
+
+    setfilteredJobs(filtered);
   };
 
   const showJob = index => {
@@ -61,18 +72,21 @@ const ViewJobs = props => {
       />
       <div style={{ flexDirection: "row" }}>
         <FilterButtons
+          filter={filter}
           dropdownOpen={typeDropdownOpen}
           toggle={() => typeToggle()}
           filterType="Type"
           filterItems={["Internship", "Full Time", "Contractor"]}
         />
         <FilterButtons
+          filter={filter}
           dropdownOpen={locationDropdownOpen}
           toggle={() => locationToggle()}
           filterType="Location"
           filterItems={["New York", "Los Angeles", "San Francisco"]}
         />
         <FilterButtons
+          filter={filter}
           dropdownOpen={roleDropdownOpen}
           toggle={() => roleToggle()}
           filterType="Primary Role"
@@ -84,12 +98,12 @@ const ViewJobs = props => {
         />
       </div>
       <div className="row ">
-        {jobs.length > 0
-          ? jobs.map((job, index) => (
+        {filteredJobs.length > 0
+          ? filteredJobs.map((job, index) => (
               <div
                 className="card"
                 style={{
-                  width: "15rem",
+                  width: "18rem",
                   paddingRight: 10,
                   paddingLeft: 10,
                   margin: 10
@@ -103,7 +117,7 @@ const ViewJobs = props => {
                   width="150"
                 />
                 <div
-                  style={{ padding: 0, paddingBottom: 10 }}
+                  style={{ padding: 0, paddingBottom: 10, marginLeft: 20 }}
                   class="card-body"
                 >
                   <h5 class="card-title">
