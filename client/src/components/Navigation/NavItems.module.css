@@ -16,16 +16,16 @@
 }
 
 .NavItem a {
-    color: black;
-    padding: 10px 10px;
+    padding: 10px 20px;
     text-decoration: none;
+    font-size: 1.2rem;
 }
 
 .NavItem a:hover {
-    border-bottom: 4px solid black;
+    border-bottom: 4px solid red;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 720px) {
     .NavItems {
         flex-direction: column;
     }
