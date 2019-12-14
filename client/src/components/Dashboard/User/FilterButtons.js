@@ -6,11 +6,12 @@ import {
   DropdownMenu,
   DropdownItem,
   ButtonGroup
+
 } from "reactstrap";
 
 export default function FilterButtons(props) {
-  const buttonType = props.filterType;
-  const buttonItems = props.filterItems;
+    const buttonType = props.filterType;
+    const buttonItems = props.filterItems;
 
   return (
     <ButtonGroup>
@@ -34,4 +35,5 @@ export default function FilterButtons(props) {
       </ButtonDropdown>
     </ButtonGroup>
   );
+
 }

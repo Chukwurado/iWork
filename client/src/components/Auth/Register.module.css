@@ -2,13 +2,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 80px;
+    margin-bottom: 20px;
 }
 
 .Card {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     width: 600px;
     display: flex;
     flex-direction: column;
+    box-shadow: 0px 0px 10px -2px #000;
 }
 
 .TopMsg {
@@ -53,4 +56,8 @@
 .Label {
     font-size: 0.8rem;
     margin: 0 0 5px 0;
+}
+
+.HaveAccount {
+    padding: 0 20px;
 }

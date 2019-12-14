@@ -58,7 +58,8 @@ const Register = props => {
     };
 
     if (props.userAuthenticated) {
-        return <Redirect to="/me"></Redirect>;
+        props.history.push("/me");
+        // return <Redirect to="/me"></Redirect>;
     }
     if (props.companyAuthenticated) {
         return <Redirect to="/dashboard"></Redirect>;
@@ -206,12 +207,14 @@ const Register = props => {
                                 onChange={inputChanged}
                             />
                         </div>
-                        <button type="submit">Register</button>
+                        <button className="btn btn-primary" type="submit">
+                            Register
+                        </button>
                     </form>
                 </div>
-                <div>
+                <div className={classes.HaveAccount}>
                     <p>
-                        Have An Account? <Link to="/signin">Sign In</Link>
+                        Have An Account? <Link to="/login">Sign In</Link>
                     </p>
                 </div>
             </div>
