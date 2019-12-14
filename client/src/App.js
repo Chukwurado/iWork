@@ -2,12 +2,14 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 
+import Landing from "./components/Landing/Landing";
 import Navbar from "./components/Navigation/Navbar";
 import SideNav from "./components/Navigation/SideNav";
 import Register from "./components/Auth/Register";
 import SignIn from "./components/Auth/SignIn";
 import UserDashboard from "./components/Dashboard/User/UserDashboard";
 import CompanyDashboard from "./components/Dashboard/Company/CompanyDashboard";
+import ViewJobs from "./components/Dashboard/User/ViewJobs";
 
 import store from "./store";
 import { authenticate, setAuthToken } from "./store/actions/auth";
@@ -34,6 +36,10 @@ class App extends React.Component {
     };
 
     render() {
+        const {
+            userAuthenticated,
+            companyAuthenticated
+        } = store.getState().auth;
         return (
             <Provider store={store}>
                 <Router>
@@ -42,7 +48,14 @@ class App extends React.Component {
                         open={this.state.showSideNav}
                         closed={this.closeSideDrawer}
                     />
-                    <main style={{ marginTop: 55 }}>
+                    <main
+                        style={{
+                            marginTop:
+                                userAuthenticated || companyAuthenticated
+                                    ? 80
+                                    : 0
+                        }}
+                    >
                         <Switch>
                             <Route
                                 exact
@@ -51,11 +64,13 @@ class App extends React.Component {
                             />
                             <Route exact path="/login" component={SignIn} />
                             <Route exact path="/me" component={UserDashboard} />
+                            <Route exact path="/jobs" component={ViewJobs} />
                             <Route
                                 exact
                                 path="/dashboard"
                                 component={CompanyDashboard}
                             />
+                            <Route exact path="/" component={Landing} />
                         </Switch>
                     </main>
                 </Router>

@@ -36,6 +36,10 @@ const PostJob = props => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const closePostJob = () => {
+        props.showViewJobs();
+    };
+
     const submitForm = async e => {
         e.preventDefault();
         try {
@@ -45,7 +49,9 @@ const PostJob = props => {
             const body = JSON.stringify(formData);
             const res = await axios.post("api/jobs", body, config);
             console.log(res.data);
+            closePostJob();
         } catch (err) {
+            if (!err) return;
             console.error(err);
             const errs = err.response.data.errors;
             const errorsObj = {};
@@ -56,8 +62,6 @@ const PostJob = props => {
             }
             setErrors({ ...errorsObj });
         }
-
-        props.getCompanyInfo();
     };
 
     return (

@@ -19,8 +19,8 @@ const CompanyDashboard = props => {
     });
 
     const getCompanyInfo = async () => {
-        setAuthToken(localStorage.token);
         try {
+            setAuthToken(localStorage.token);
             const res = await axios.get("api/profile/company/dashboard");
             console.log(res.data);
             setCompanyInfo({
@@ -45,6 +45,7 @@ const CompanyDashboard = props => {
     };
 
     const showViewJobs = () => {
+        getCompanyInfo();
         setShowPostJob(false);
     };
 
@@ -53,7 +54,7 @@ const CompanyDashboard = props => {
             <SideBar postjob={showPostJobsHandler} viewjobs={showViewJobs} />
             <div className={classes.CompanyDashboard}>
                 {showPostJob ? (
-                    <PostJob getCompanyInfo={getCompanyInfo} />
+                    <PostJob showViewJobs={showViewJobs} />
                 ) : (
                     <ViewJobs jobs={jobs} />
                 )}

@@ -18,7 +18,7 @@ const SideNav = props => {
                     <h2>iWork</h2>
                 </div>
                 <nav>
-                    <NavItems closed={props.closed} />
+                    <NavItems closed={props.closed} fromSideNav={true} />
                 </nav>
             </div>
         </>

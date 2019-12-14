@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { logout } from "../../store/actions/auth";
@@ -7,6 +7,13 @@ import { logout } from "../../store/actions/auth";
 import classes from "./NavItems.module.css";
 
 const NavItems = props => {
+    const {
+        userAuthenticated,
+        companyAuthenticated,
+        fromSideNav,
+        match
+    } = props;
+    console.log(match);
     const userAuthLinks = (
         <>
             <li className={classes.NavItem} onClick={props.closed}>
@@ -36,10 +43,36 @@ const NavItems = props => {
     const guestLink = (
         <>
             <li className={classes.NavItem} onClick={props.closed}>
-                <Link to="/login">Sign In</Link>
+                <Link
+                    to="/login"
+                    style={{
+                        color:
+                            userAuthenticated ||
+                            companyAuthenticated ||
+                            fromSideNav ||
+                            !match.isExact
+                                ? "black"
+                                : "#eee"
+                    }}
+                >
+                    Sign In
+                </Link>
             </li>
             <li className={classes.NavItem} onClick={props.closed}>
-                <Link to="/register">Register</Link>
+                <Link
+                    to="/register"
+                    style={{
+                        color:
+                            userAuthenticated ||
+                            companyAuthenticated ||
+                            fromSideNav ||
+                            !match.isExact
+                                ? "black"
+                                : "#eee"
+                    }}
+                >
+                    Register
+                </Link>
             </li>
         </>
     );
@@ -47,9 +80,9 @@ const NavItems = props => {
     return (
         <div>
             <ul className={classes.NavItems}>
-                {props.userAuthenticated
+                {userAuthenticated
                     ? userAuthLinks
-                    : props.companyAuthenticated
+                    : companyAuthenticated
                     ? companyAuthLink
                     : guestLink}
             </ul>
@@ -62,4 +95,4 @@ const mapStateToProps = state => ({
     companyAuthenticated: state.auth.companyAuthenticated
 });
 
-export default connect(mapStateToProps, { logout })(NavItems);
+export default connect(mapStateToProps, { logout })(withRouter(NavItems));
