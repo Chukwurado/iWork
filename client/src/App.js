@@ -23,6 +23,10 @@ class App extends React.Component {
         showSideNav: false
     };
 
+    refreshPage = () => {
+        window.location.reload(false);
+    };
+
     componentDidMount = () => {
         store.dispatch(authenticate(store.getState().auth.userAuthenticated));
     };

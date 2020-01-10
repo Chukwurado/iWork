@@ -34,7 +34,7 @@ const SignIn = props => {
     };
 
     if (props.userAuthenticated) {
-        return <Redirect to="/me"></Redirect>;
+        return <Redirect to="/jobs"></Redirect>;
     }
 
     if (props.companyAuthenticated) {
